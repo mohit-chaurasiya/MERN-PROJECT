@@ -20,7 +20,9 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm init -y,
     npm install express mongoose ,
     npm install --save-dev nodemon,
-    npm install dotenv
+    npm install dotenv,
+    npm install bcrypt,
+    npm install validator,
     ```
 
 ## Running the Application
