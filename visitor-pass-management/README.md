@@ -22,3 +22,15 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install --save-dev nodemon,
     npm install dotenv
     ```
+
+## Running the Application
+1. Start the backend server:
+   ```bash
+   npm run server
+   ```
+
+## API Endpoints
+
+GET / - Home endpoint
+GET /admin/login - Admin login endpoint
+POST  /auth/register - User registration endpoint
