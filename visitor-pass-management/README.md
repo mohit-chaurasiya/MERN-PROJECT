@@ -30,7 +30,8 @@ This project is a visitor pass management system built using the MERN stack. It 
    ```
 
 ## API Endpoints
-
-GET / - Home endpoint
-GET /admin/login - Admin login endpoint
+```
+GET / - Home endpoint,
+GET /admin/login - Admin login endpoint,
 POST  /auth/register - User registration endpoint
+```
