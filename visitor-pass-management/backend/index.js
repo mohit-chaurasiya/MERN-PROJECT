@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const visitorRoutes = require('./routes/visitorRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,9 @@ app.use('/admin', adminRoutes);
 
 // visitor routes
 app.use("/api/visitors",visitorRoutes)
+
+// Appointment routes
+app.use("/api/appointments", appointmentRoutes)
 
 
 
