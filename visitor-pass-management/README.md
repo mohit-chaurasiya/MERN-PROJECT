@@ -50,4 +50,7 @@ DELETE /api/visitors/:id
 ```   
 POST /api/appointments
 GET /api/appointments
+PATCH /appointments/:id/approve
+PATCH /appointments/:id/reject
+```
 

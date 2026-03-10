@@ -18,3 +18,42 @@ exports.getAppointments = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+exports.approveAppointment = async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+        const appointment = await Appointment.findByIdAndUpdate(
+              id,
+             { status: 'approved' },
+            { new: true })
+        res.status(200).json(appointment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+exports.rejectAppointment = async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        const appointment = await Appointment.findByIdAndUpdate(
+            id,
+            {status : 'rejected'},
+            {new : true}
+        )
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        res.status(200).json({
+            message: 'Appointment rejected successfully',
+            appointment
+        });
+    } catch (error) {        
+        res.status(400).json({ 
+            message: error.message      
+        })
+    }
+}
