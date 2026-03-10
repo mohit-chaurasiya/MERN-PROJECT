@@ -46,3 +46,8 @@ GET /api/visitors/:id
 PATCH /api/visitors/:id
 DELETE /api/visitors/:id
 ```
+## apointments API Endpoints
+```   
+POST /api/appointments
+GET /api/appointments
+
