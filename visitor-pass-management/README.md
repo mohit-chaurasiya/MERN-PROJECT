@@ -23,6 +23,7 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install dotenv,
     npm install bcrypt,
     npm install validator,
+    npm install jsonwebtoken,
     ```
 
 ## Running the Application
@@ -36,4 +37,12 @@ This project is a visitor pass management system built using the MERN stack. It 
 GET / - Home endpoint,
 GET /admin/login - Admin login endpoint,
 POST  /auth/register - User registration endpoint
+```
+## Visitor API Endpoints
+```
+POST /api/visitors
+GET /api/visitors
+GET /api/visitors/:id
+PATCH /api/visitors/:id
+DELETE /api/visitors/:id
 ```
