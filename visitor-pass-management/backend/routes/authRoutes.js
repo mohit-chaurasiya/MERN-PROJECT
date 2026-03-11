@@ -9,7 +9,7 @@ const router = express.Router();
 
 /**
  * Method : POST
- * Route : /auth/register
+ * Route : /api/auth/register
  * Description : Register a new user
  * Access : Public
  */
@@ -20,7 +20,7 @@ router.post('/register', registerUser);
 
 /**
  * Method : POST
- * Route : /auth/register
+ * Route : /api/auth/login
  * Description : Register a new user
  * Access : Public
  */

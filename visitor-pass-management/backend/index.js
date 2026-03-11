@@ -8,6 +8,8 @@ const visitorRoutes = require('./routes/visitorRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const passRoutes = require('./routes/passRoutes');
 
+const checkRoutes = require('./routes/checkRoutes')
+
 dotenv.config();
 const app = express();
 
@@ -29,6 +31,9 @@ app.use("/api/appointments", appointmentRoutes)
 
 // Pass routes
 app.use("/api/passes", passRoutes)
+
+// check log routes
+app.use("/api/check", checkRoutes)
 
 
 
