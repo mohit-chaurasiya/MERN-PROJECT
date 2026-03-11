@@ -16,6 +16,7 @@ This project is a visitor pass management system built using the MERN stack. It 
    ```
 3. Install the dependecies
 
+  ### Backend
     ```bash
     npm init -y,
     npm install express mongoose ,
@@ -27,6 +28,13 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install qrcode,
     npm install pdfkit
     ```
+  ### Frontend
+   ```
+   npm create vite@latest,
+   npm install tailwindcss @tailwindcss/vite,
+   npm install react-router-dom,
+   npm install axios
+
 
 ## Running the Application
 1. Start the backend server:
