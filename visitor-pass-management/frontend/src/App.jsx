@@ -7,7 +7,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
 import SecurityDashboard from "./pages/security/SecurityDashboard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-
+import RoleProtectedRoute from "./components/RoleProtectedRoute";
+import Visitors from "./pages/admin/Visitors";
 
 
 function App() {
@@ -19,25 +20,35 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute allowedRole="admin">
               <AdminDashboard />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
+
+        <Route
+          path="/admin/visitors"
+          element={
+            <RoleProtectedRoute allowedRole="admin">
+              <Visitors />
+            </RoleProtectedRoute>
+          }
+        />
+
         <Route
           path="/employee"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute allowedRole="employee">
               <EmployeeDashboard />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/security"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute allowedRole="security">
               <SecurityDashboard />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
       </Routes>

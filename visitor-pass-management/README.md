@@ -35,7 +35,8 @@ This project is a visitor pass management system built using the MERN stack. It 
    npm install tailwindcss @tailwindcss/vite,
    npm install react-router-dom,
    npm install axios,
-   npm install lucide-react
+   npm install lucide-react,
+   npm install react-hot-toast
 
    ```
 

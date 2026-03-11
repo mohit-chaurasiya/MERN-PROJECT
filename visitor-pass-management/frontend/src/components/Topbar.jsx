@@ -16,11 +16,11 @@ function Topbar() {
     <div className="bg-white flex shadow-sm rounded-2xl items-center justify-between px-6 py-2 ">
       
       <h1 className="text-lg font-semibold text-gray-800">Dashboard</h1>
-       <div className="flex items-center gap-4">
+       <div className="flex gap-4"><div className="flex items-center gap-4">
          <Bell className="cursor-pointer text-gray-600"/>
          <UserCircle className="cursor-pointer text-gray-600"/>
        </div>
-       <button className="cursor-pointer" onClick={handleLogout}>Logout</button>
+       <button className="cursor-pointer" onClick={handleLogout}>Logout</button></div>
     </div>
   )
 }

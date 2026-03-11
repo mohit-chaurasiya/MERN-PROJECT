@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LayoutDashboard, Users, CalendarCheck, Ticket, Menu, X } from "lucide-react"
 
 
-const Sidebar = () => {
+const Sidebar = ({menuItems}) => {
 
   const [open, setOpen]= useState(false)
 
@@ -34,37 +34,26 @@ const Sidebar = () => {
 
       <nav className="flex flex-col gap-4">
 
-        <Link
+        {/* <Link
           to="/admin"
           className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded"
         >
           <LayoutDashboard size={18}/>
           Dashboard
-        </Link>
+        </Link> */}
 
-        <Link
-          to="/admin/visitors"
+        {menuItems.map((item, index) => {
+        const Icon = item.icon;
+        return (
+          <Link
+          key={index}
+          to={item.path}
           className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded"
         >
-          <Users size={18}/>
-          Visitors
+          <Icon size={18}/>
+          {item.name}
         </Link>
-
-        <Link
-          to="/admin/appointments"
-          className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded"
-        > <CalendarCheck size={18}/>
-          Appointments
-        </Link>
-
-
-        <Link
-          to="/admin/passes"
-          className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded"
-        >
-          <Ticket size={18}/>
-          Passes
-        </Link>
+        )})}
 
       </nav>
       </div>

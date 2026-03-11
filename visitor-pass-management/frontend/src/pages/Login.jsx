@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { notify } from "../utils/notify";
 
 
 
@@ -19,8 +20,9 @@ function Login() {
             const res = await API.post("/auth/login",{email,password})
 
             // token save
+            
             localStorage.setItem("token",res.data.token)
-
+            localStorage.setItem("role",res.data.role)
             // role detect
 
             const role = res.data.role
@@ -41,11 +43,11 @@ function Login() {
              
             // console.log(res.data)
             login(res.data)
-
-            alert("Login successfull")
+            notify.success("Welcome Back")
+            
         }catch(err){
             console.log(err)
-            alert("Login failed")
+            notify.error("Invalid email or password")
         }
     }
 
