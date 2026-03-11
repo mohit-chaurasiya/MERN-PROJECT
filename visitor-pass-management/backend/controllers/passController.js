@@ -44,7 +44,7 @@ exports.generatePass = async (req, res) => {
         // create pass
 
         const pass = await Pass.create({
-            vistorId : appointment.visitorId,
+            visitorId : appointment.visitorId,
             appointmentId,
             passNumber,
             qrCode,

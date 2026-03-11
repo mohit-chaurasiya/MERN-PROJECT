@@ -25,6 +25,7 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install validator,
     npm install jsonwebtoken,
     npm install qrcode,
+    npm install pdfkit
     ```
 
 ## Running the Application
@@ -35,14 +36,16 @@ This project is a visitor pass management system built using the MERN stack. It 
 
 ## API Endpoints
 ```
-GET / - Home endpoint,
-GET /admin/login - Admin login endpoint,
-POST  /auth/register - User registration endpoint
+GET  :- / - Home endpoint,
+GET  :- /api/admin/login - Admin login endpoint,
+POST :-  /api/auth/register - User registration endpoint
+GET  :- /api/dashboard/stats
 ```
 ## Visitor API Endpoints
 ```
 POST /api/visitors
 GET /api/visitors
+GEt /api/visitors/search/:query
 GET /api/visitors/:id
 PATCH /api/visitors/:id
 DELETE /api/visitors/:id
@@ -54,4 +57,12 @@ GET /api/appointments
 PATCH /appointments/:id/approve
 PATCH /appointments/:id/reject
 ```
-
+## visitor checkin or checkout
+```
+POST :- /api/check/checkin
+POST :- /api/check/checkout
+```
+## visitor pdf 
+```
+GET /api/passes/passNumber/badge
+```

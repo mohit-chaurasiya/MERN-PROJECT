@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const passSchema = new Schema({
 
-    vistorId : {
+    visitorId : {
         type: mongoose.Schema.Types.ObjectId,
         ref : 'Visitor',
         required : true

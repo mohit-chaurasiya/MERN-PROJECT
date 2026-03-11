@@ -91,3 +91,28 @@ exports.deleteVisitor = async (req, res) => {
         })
     }
 }
+
+exports.searchVisitors = async (req, res)=>{
+    const {name, host, date} = req.query
+
+    let query = {}
+
+    if(name){
+        query.name = { $regex:name, $options:"i" }
+    }
+
+    if(host){
+        query.host = { $regex:host, $options:"i" }
+    }
+
+    if(date){
+        query.createdAt = {
+            $gte: new Date(date),
+            $lte: new Date(date + "T23:59:59")
+        }
+    }
+
+    const visitors = await Visitor.find(query)
+
+    res.status(200).json(visitors)
+}

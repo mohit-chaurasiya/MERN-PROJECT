@@ -7,8 +7,8 @@ const adminRoutes = require('./routes/adminRoutes');
 const visitorRoutes = require('./routes/visitorRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const passRoutes = require('./routes/passRoutes');
-
-const checkRoutes = require('./routes/checkRoutes')
+const checkRoutes = require('./routes/checkRoutes');
+const dashboardRoutes = require("./routes/dashboadRoutes");
 
 dotenv.config();
 const app = express();
@@ -34,6 +34,9 @@ app.use("/api/passes", passRoutes)
 
 // check log routes
 app.use("/api/check", checkRoutes)
+
+// dashboard stats
+app.use('/api/dashboard',dashboardRoutes)
 
 
 

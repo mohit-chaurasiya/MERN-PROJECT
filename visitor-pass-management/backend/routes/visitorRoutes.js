@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const requireAuth = require('../middleware/requireAuth');
-const { createVisitor, getVisitors, getVisitorById, updateVisitor, deleteVisitor } = require('../controllers/visitorController');
+const { createVisitor, getVisitors, getVisitorById, updateVisitor, deleteVisitor, searchVisitors } = require('../controllers/visitorController');
 
 
 
@@ -17,6 +17,15 @@ router.use(requireAuth);
  */
 
 router.post('/', createVisitor);
+
+/**
+ * Method : GET
+ * Route : /api/visitors/
+ * Description : get visitor by name , host name, date
+ * Parameters : name . host name , date
+ * Access : Public
+ */ 
+router.get("/search", searchVisitors)
 
 /**
  * Method : GET
@@ -56,5 +65,7 @@ router.patch('/:id',updateVisitor);
  */ 
 
 router.delete('/:id', deleteVisitor);
+
+
 
 module.exports = router;
