@@ -40,7 +40,8 @@ exports.loginUser = async (req, res) => {
 
         res.status(200).json({
             email: user.email,
-            token
+            token,
+            role: user.role
         })
     } catch (error) {
         res.status(400).json({

@@ -26,20 +26,28 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install validator,
     npm install jsonwebtoken,
     npm install qrcode,
-    npm install pdfkit
+    npm install pdfkit,
+    npm install cors
     ```
   ### Frontend
    ```
    npm create vite@latest,
    npm install tailwindcss @tailwindcss/vite,
    npm install react-router-dom,
-   npm install axios
+   npm install axios,
+   npm install lucide-react
+
+   ```
 
 
 ## Running the Application
 1. Start the backend server:
    ```bash
    npm run server
+   ```
+2. Start the frontend server:
+   ```
+    npm run dev
    ```
 
 ## API Endpoints

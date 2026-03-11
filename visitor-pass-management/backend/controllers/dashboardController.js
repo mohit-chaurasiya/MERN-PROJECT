@@ -12,12 +12,13 @@ exports.getDashboardStats = async (req, res) => {
         const totalSecurity = await User.countDocuments({role: "security"})
         const totalVisitors = await Visitor.countDocuments()
         const activePasses = await Pass.countDocuments({stats: "active"})
-        const pendingAppointments = await Appointment.countDocuments({
-            status : "pending"
-        })
         const approveAppointments = await Appointment.countDocuments({
             status : "approved"
         })
+        const pendingAppointments = await Appointment.countDocuments({
+            status : "pending"
+        })
+        
         const rejectAppointments = await Appointment.countDocuments({
             status : "rejected"
         })
@@ -29,6 +30,10 @@ exports.getDashboardStats = async (req, res) => {
             checkInTime : { $gte : today}
         })
 
+        const todayCheckout = await CheckLog.countDocuments({
+            checkoutTime : { $gte : today}
+        })
+
         res.status(200).json({
             totalEmployee,
             totalSecurity,
@@ -37,7 +42,8 @@ exports.getDashboardStats = async (req, res) => {
             approveAppointments,
             pendingAppointments,
             rejectAppointments,
-            todayCheckins
+            todayCheckins,
+            todayCheckout
         })
 
     }catch(error){

@@ -1,24 +1,48 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
+import SecurityDashboard from "./pages/security/SecurityDashboard";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+
+
 
 function App() {
- 
-
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-
-      <div className="bg-white p-10 rounded-xl shadow-lg">
-
-        <h1 className="text-4xl font-bold text-blue-900">
-          Visitor Pass Management
-        </h1>
-
-        <button className="mt-5 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-          Login
-        </button>
-
-      </div>
-
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee"
+          element={
+            <ProtectedRoute>
+              <EmployeeDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/security"
+          element={
+            <ProtectedRoute>
+              <SecurityDashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
