@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 
 
@@ -8,10 +9,13 @@ function Login() {
 
     const [email,setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const {login} = useAuth()
     const navigate = useNavigate()
 
     const handleLogin = async ()=>{
         try{
+
+          
             const res = await API.post("/auth/login",{email,password})
 
             // token save
@@ -34,8 +38,9 @@ function Login() {
             if(role === "security"){
               navigate("/security")
             }
-
-            console.log(res.data)
+             
+            // console.log(res.data)
+            login(res.data)
 
             alert("Login successfull")
         }catch(err){
