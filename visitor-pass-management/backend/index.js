@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const visitorRoutes = require('./routes/visitorRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const passRoutes = require('./routes/passRoutes');
 
 dotenv.config();
 const app = express();
@@ -17,14 +18,17 @@ connectDB();
 app.use(express.json());
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 
 // visitor routes
 app.use("/api/visitors",visitorRoutes)
 
 // Appointment routes
 app.use("/api/appointments", appointmentRoutes)
+
+// Pass routes
+app.use("/api/passes", passRoutes)
 
 
 

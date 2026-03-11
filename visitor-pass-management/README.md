@@ -24,6 +24,7 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install bcrypt,
     npm install validator,
     npm install jsonwebtoken,
+    npm install qrcode,
     ```
 
 ## Running the Application
