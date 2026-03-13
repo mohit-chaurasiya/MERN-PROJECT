@@ -13,7 +13,7 @@ const AdminLayout = ({children}) => {
 
 
         <div className="flex-1 bg-slate-100 min-h-screen p-6 md:ml-0">
-          <Topbar />
+          <Topbar role={"Admin"} />
           <div className="p-6">
             {children}
           </div>

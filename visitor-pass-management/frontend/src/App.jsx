@@ -9,7 +9,9 @@ import SecurityDashboard from "./pages/security/SecurityDashboard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import Visitors from "./pages/admin/Visitors";
-
+import CreateAppointment from "./pages/employee/CreateAppointment";
+import CreateVisitor from "./pages/employee/CreateVisitor";
+import EmployeeVisitors from "./pages/employee/EmployeeVisitors"
 
 function App() {
   return (
@@ -43,6 +45,33 @@ function App() {
             </RoleProtectedRoute>
           }
         />
+
+        <Route
+          path="/employee/create-visitor"
+          element={
+            <RoleProtectedRoute allowedRole="employee">
+              <CreateVisitor />
+            </RoleProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/employee/create-appointments"
+          element={
+            <RoleProtectedRoute allowedRole="employee">
+              <CreateAppointment />
+            </RoleProtectedRoute>
+          }
+        />
+
+         <Route
+         path="/employee/visitors"
+         element={
+          <RoleProtectedRoute allowedRole="employee">
+            <EmployeeVisitors />
+          </RoleProtectedRoute>
+         } />
+
         <Route
           path="/security"
           element={

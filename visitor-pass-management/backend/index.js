@@ -28,6 +28,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 
 // visitor routes
+app.use("/uploads",express.static("uploads"));
 app.use("/api/visitors",visitorRoutes)
 
 // Appointment routes

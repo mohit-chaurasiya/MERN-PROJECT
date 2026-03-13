@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const requireAuth = require('../middleware/requireAuth');
 const { createVisitor, getVisitors, getVisitorById, updateVisitor, deleteVisitor, searchVisitors } = require('../controllers/visitorController');
-
+const { upload } = require('../middleware/upload');
 
 
 // protect all routes
@@ -16,7 +16,7 @@ router.use(requireAuth);
  * Access : Private
  */
 
-router.post('/', createVisitor);
+router.post('/',upload.single("photo"), createVisitor);
 
 /**
  * Method : GET
@@ -35,6 +35,8 @@ router.get("/search", searchVisitors)
  */
 
 router.get('/', getVisitors); 
+
+
 
 /**
  * Method : GET

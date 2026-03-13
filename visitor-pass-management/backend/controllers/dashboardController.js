@@ -4,6 +4,7 @@ const Appointment = require("../models/Appointment")
 const CheckLog = require("../models/CheckLog")
 const User = require("../models/User")
 
+
 exports.getDashboardStats = async (req, res) => {
 
     try{
@@ -51,5 +52,46 @@ exports.getDashboardStats = async (req, res) => {
         res.status(400).json({
             error: error.message
         })
+    }
+}
+
+exports.getEmployeeStats = async (req, res)=>{
+    try{
+        
+        const employeeId = req.user._id
+
+        const totalVisitor = await Visitor.countDocuments({
+            hostId: employeeId
+        })
+
+        const total = await Appointment.countDocuments({
+            hostId : employeeId
+        })
+
+        const pending = await Appointment.countDocuments({
+            hostId: employeeId,
+            status: "pending"
+        })
+
+        const approved = await Appointment.countDocuments({
+            hostId: employeeId,
+            status: "approved"
+        })
+
+        const rejected = await Appointment.countDocuments({
+            hostId: employeeId,
+            status: "rejected"
+        })
+
+        res.status(200).json({
+            totalVisitor,
+            total,
+            pending,
+            approved,
+            rejected
+        })
+
+    }catch (err){
+        error: "Failed to fetch employee stats"
     }
 }

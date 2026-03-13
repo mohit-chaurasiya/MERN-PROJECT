@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, CalendarCheck, Ticket } from "lucide-react";
+import { LayoutDashboard, Users, CalendarCheck, Ticket, User, LaptopMinimalCheck } from "lucide-react";
 
 export const adminMenu = [
   {
@@ -33,6 +33,21 @@ export const employeeMenu = [
     name: "Appointments",
     path: "/employee/appointments",
     icon: CalendarCheck
+  },
+  {
+    name: "Register Visitor",
+    path: "/employee/create-visitor",
+    icon: LaptopMinimalCheck
+  },
+  {
+    name: "Create Appointments",
+    path: "/employee/create-appointments",
+    icon: User
+  },
+  {
+    name: "Visitors",
+    path: "/employee/visitors",
+    icon: User
   }
 ];
 

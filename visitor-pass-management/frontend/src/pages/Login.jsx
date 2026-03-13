@@ -23,6 +23,8 @@ function Login() {
             
             localStorage.setItem("token",res.data.token)
             localStorage.setItem("role",res.data.role)
+           
+            
             // role detect
 
             const role = res.data.role
@@ -43,7 +45,7 @@ function Login() {
              
             // console.log(res.data)
             login(res.data)
-            notify.success("Welcome Back")
+            notify.success(`Welcome Back!  ${res.data.name} 👋👋  `)
             
         }catch(err){
             console.log(err)
@@ -79,6 +81,7 @@ function Login() {
         />
 
         <button
+        type="submit"
           onClick={handleLogin}
           className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
         >

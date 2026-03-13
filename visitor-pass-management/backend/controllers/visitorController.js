@@ -2,10 +2,25 @@ const Visitor = require('../models/Visitor');
 
 //  create Vistor 
 exports.createVisitor = async (req, res) => {
-    try{
-        const {name, email, purpose, host} = req.body;
 
-        const visitor = await Visitor.create({name, email, purpose, host});
+ 
+
+        
+    try{
+
+        const hostId = req.user._id
+        const {name, email, phone, host} = req.body;
+        const photo = req.file?.filename
+ 
+        const visitor = await Visitor.register(
+            name, 
+            email, 
+            phone, 
+            host,
+            hostId,
+            photo
+            
+    );
 
         res.status(201).json({
             message: 'Visitor created successfully',
@@ -13,20 +28,36 @@ exports.createVisitor = async (req, res) => {
         })
     } catch (error) {
         res.status(400).json({
-            message: 'Error creating visitor',
-            error
+            error: error.message
+            
         })
     }
+
+
 }
 
 
 exports.getVisitors = async (req, res) => {
     
-        const visitors = await Visitor.find().sort({createdAt: -1});
-        res.status(200).json(
+    try{
+        // agr admin hai toh sb visitor
+        if(req.user.role === "admin"){
+            const visitors = await Visitor.find().sort({createdAt: -1});
+           return res.status(200).json(
             visitors
         )
-    } 
+        }
+
+         const visitors = await Visitor.find({
+                hostId: req.user._id
+            }).sort({createdAt: -1});
+            res.status(200).json(visitors);
+    }catch (error){
+            res.status(404).json({message: error.message});
+        }
+} 
+
+
 
 
 exports.getVisitorById = async (req, res) => {

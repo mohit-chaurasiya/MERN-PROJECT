@@ -27,7 +27,8 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install jsonwebtoken,
     npm install qrcode,
     npm install pdfkit,
-    npm install cors
+    npm install cors,
+    npm install multer
     ```
   ### Frontend
    ```
