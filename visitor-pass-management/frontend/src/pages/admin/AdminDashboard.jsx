@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 import API from "../../services/api";
+import DashboardSkeleton from "../../components/skeletons/DashboardSkeleton";
 
 const AdminDashboard = () => {
   const [count, setCount] = useState({});
+  const [loading,setLoading] = useState(true)
+
+  
 
   useEffect(() => {
     const fetchCount = async () => {
       const res = await API.get("dashboard/stats");
       setCount(res.data);
+
+      setTimeout(() => {
+        setLoading(false)
+      },500);
     };
 
     fetchCount();
@@ -16,7 +24,10 @@ const AdminDashboard = () => {
 
   return (
     <AdminLayout>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+       {loading ? (
+        <DashboardSkeleton count={9} />
+       ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-xl shadow">
           <h3 className="text-gray-500 text-sm">Total Employees</h3>
           <p className="text-2xl font-bold text-blue-900">
@@ -76,6 +87,7 @@ const AdminDashboard = () => {
           </p>
         </div>
       </div>
+       )}
     </AdminLayout>
   );
 };

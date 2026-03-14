@@ -3,15 +3,17 @@ import EmployeeLayout from "../../layouts/EmployeeLayout";
 import { Calendar, Clock, User, CheckCircle, XCircle } from "lucide-react";
 import API from "../../services/api";
 import { useAuth } from "../../hooks/useAuth";
+import DashboardSkeleton from "../../components/skeletons/DashboardSkeleton";
+
 
 
 
 const EmployeeDashboard = () => {
 
 
-
-
   const {user} = useAuth()
+
+  const [loading,setLoading] = useState(true)
 
   const [count, setCount] = useState({
     total: 0,
@@ -25,6 +27,10 @@ const EmployeeDashboard = () => {
       try {
         const res = await API.get("/dashboard/employee");
         setCount(res.data);
+
+        setTimeout(() => {
+          setLoading(false)
+        }, );
       } catch (err) {
         console.log(err);
       }
@@ -37,13 +43,16 @@ const EmployeeDashboard = () => {
     <EmployeeLayout>
       <h1 className="text-2xl font-bold mb-6">Welcome {user?.name.split(" ")[0]} 😊</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {loading ? (
+        <DashboardSkeleton count={5} />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white shadow rounded-xl p-5 flex items-center gap-4">
           <div className="bg-green-100 p-3 rounded-lg">
             <User className="text-green-600" />
           </div>
           <p className="text-gray-500 text-sm">Total Visitors</p>
-          <h2 className="text-bold font-bold">{count?.totalVisitor}</h2>
+          <h2 className="text-bold block font-bold">{count?.totalVisitor}</h2>
         </div>
 
         {/* Total appointment */}
@@ -69,14 +78,14 @@ const EmployeeDashboard = () => {
         </div>
 
         {/* Approved */}
-        <div className="bg-white shadow rounded-xl p-5 flex items-center gap-4">
+        <div className="bg-white shadow rounded-xl p-5  flex items-center gap-4">
           <div className="bg-green-100 p-3 rounded-lg">
             <CheckCircle className="text-green-600" />
           </div>
 
           <div>
-            <p className="text-gray-500 text-sm">Approved</p>
-            <h2 className="text-xl font-bold">{count?.approved}</h2>
+            <p className="text-gray-500  text-sm">Approved</p>
+            <h2 className="text-xl  font-bold">{count?.approved}</h2>
           </div>
         </div>
 
@@ -87,11 +96,12 @@ const EmployeeDashboard = () => {
           </div>
 
           <div>
-            <p className="text-gray-500 text-sm">Approved</p>
-            <h2 className="text-xl font-bold">{count?.approved}</h2>
+            <p className="text-gray-500  text-sm">Rejected</p>
+            <h2 className="text-xl  font-bold">{count?.rejected}</h2>
           </div>
         </div>
       </div>
+      )}
     </EmployeeLayout>
   );
 };

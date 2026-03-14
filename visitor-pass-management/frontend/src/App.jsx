@@ -12,6 +12,7 @@ import Visitors from "./pages/admin/Visitors";
 import CreateAppointment from "./pages/employee/CreateAppointment";
 import CreateVisitor from "./pages/employee/CreateVisitor";
 import EmployeeVisitors from "./pages/employee/EmployeeVisitors"
+import EmployeeAppointmentTable from "./pages/employee/EmployeeAppointmentTable";
 
 function App() {
   return (
@@ -62,6 +63,15 @@ function App() {
               <CreateAppointment />
             </RoleProtectedRoute>
           }
+        />
+
+        <Route 
+        path="/employee/appointments"
+        element={
+          <RoleProtectedRoute allowedRole="employee">
+            <EmployeeAppointmentTable />
+          </RoleProtectedRoute>
+        }
         />
 
          <Route

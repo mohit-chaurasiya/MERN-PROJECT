@@ -8,7 +8,7 @@ import { adminMenu } from "../config/menuConfig";
 
 const AdminLayout = ({children}) => {
   return (
-    <div className="flex ">
+    <div className="flex h-screen ">
         <Sidebar menuItems={adminMenu}/>
 
 

@@ -3,10 +3,13 @@ import EmployeeLayout from '../../layouts/EmployeeLayout'
 import { useNavigate } from 'react-router-dom'
 import API from '../../services/api'
 import { notify } from '../../utils/notify'
+import TableSkeleton from "../../components/skeletons/TableSkeleton";
 
 
 
 function Visitors() {
+
+    const [loading,setLoading] = useState(true)
 
     const [visitors,setVisitors] = useState([])
     const [search, setSearch] = useState("")
@@ -18,6 +21,10 @@ function Visitors() {
             try{
                 const res = await API.get("/visitors")
                 setVisitors(res.data)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
+
                 console.log(res.data)
             }catch(err){
                 console.log(err)
@@ -84,7 +91,10 @@ function Visitors() {
                     </tr>
                 </thead>
 
-                <tbody>
+                {loading ? (
+                    <TableSkeleton rows={visitors?.length || 8} columns={6} />
+                ):(
+                    <tbody>
                     {filteredVisitors.map((visitor,index)=>(
                         <tr key={visitor._id} className='border-t'>
                             
@@ -107,6 +117,7 @@ function Visitors() {
                         </tr>
                     ))}
                 </tbody>
+                )}
             </table>
         </div>
       

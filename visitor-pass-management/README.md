@@ -28,7 +28,9 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install qrcode,
     npm install pdfkit,
     npm install cors,
-    npm install multer
+    npm install multer,
+    npm install nodemailer,
+    npm install twilio
     ```
   ### Frontend
    ```
@@ -37,7 +39,8 @@ This project is a visitor pass management system built using the MERN stack. It 
    npm install react-router-dom,
    npm install axios,
    npm install lucide-react,
-   npm install react-hot-toast
+   npm install react-hot-toast,
+   npx shadcn-ui@latest init
 
    ```
 

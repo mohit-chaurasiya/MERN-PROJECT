@@ -4,9 +4,14 @@ import AdminLayout from "../../layouts/AdminLayout";
 
 import { Eye , Delete } from "lucide-react";
 import { notify } from "../../utils/notify";
+import TableSkeleton from "../../components/skeletons/TableSkeleton";
+
+
 
 
 function Visitors(){
+
+    const [loading, setLoading] = useState(true)
 
     const [visitors, setVisitors] = useState([])
     const [search, setSearch] = useState("")
@@ -15,8 +20,11 @@ function Visitors(){
     const fetchVisitors = async ()=>{
 
         const res = await API.get("/visitors")
-
         setVisitors(res.data || [])
+
+        setTimeout(() => {
+            setLoading(false)
+        }, 500);
     }
 
     fetchVisitors()
@@ -77,7 +85,10 @@ function Visitors(){
 
                     </thead>
 
-                    <tbody>
+                    {loading ? (
+                        <TableSkeleton rows={6} columns={7} />
+                    ) : (
+                        <tbody>
                         {filteredVisitor.map((visitor,index)=>(
                             <tr key={visitor._id} className="border-b">
                             <td className="p-3">{index+1}</td>
@@ -94,6 +105,7 @@ function Visitors(){
                             </tr>
                         ))}
                     </tbody>
+                    )}
 
                 </table>
             </div>

@@ -25,7 +25,10 @@ function CreateAppointment() {
                 setVisitors(res.data)
 
                 if(visitorId){
-                    setSelectedVisitor(visitorId)
+                    setForm((prev)=>({
+                        ...prev,
+                        visitorId: visitorId
+                    }))
                 }
             }catch(err){
                 console.log(err)
@@ -51,11 +54,12 @@ function CreateAppointment() {
             notify.success("Appointment created Successfully")
 
             setForm({
-                visitorId:"",
+                visitorId:visitorId || "",
                 purpose:"",
                 date:""
             })
         }catch(err){
+            console.log(err.response.data)
             notify.error("Failed to create appointment")
         }
     }
@@ -71,8 +75,8 @@ function CreateAppointment() {
 
                 <select 
                 name = "visitorId"
-                value={selectedVisitor}
-                onChange={(e)=>setSelectedVisitor(e.target.value)}
+                value={form.visitorId}
+                onChange={handleChange}
                 className='w-full border p-2 rounded'
                 required
                 >

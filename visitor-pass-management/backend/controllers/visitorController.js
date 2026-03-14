@@ -10,7 +10,7 @@ exports.createVisitor = async (req, res) => {
 
         const hostId = req.user._id
         const {name, email, phone, host} = req.body;
-        const photo = req.file?.filename
+        const photo = req.file ? `uploads/${req.file.filename}` : null
  
         const visitor = await Visitor.register(
             name, 
