@@ -1,5 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/visitor-pass-management/frontend/index.html"
+    }
   ]
 }
