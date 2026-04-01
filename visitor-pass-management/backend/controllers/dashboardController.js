@@ -95,3 +95,62 @@ exports.getEmployeeStats = async (req, res)=>{
         error: "Failed to fetch employee stats"
     }
 }
+
+exports.getWeeklyStats = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const role = req.user.role;
+
+    let pipeline = [
+      {
+        $match: {
+          checkInTime: { $ne: null }
+        }
+      },
+      {
+        $lookup: {
+          from: "passes",
+          localField: "passId",
+          foreignField: "_id",
+          as: "passData"
+        }
+      },
+      {
+        $unwind: "$passData"
+      }
+    ];
+
+    // 🔥 MAIN LOGIC
+    if (role === "employee") {
+      pipeline.push({
+        $match: {
+          "passData.hostId": userId   // 👈 IMPORTANT
+        }
+      });
+    }
+
+    pipeline.push({
+      $group: {
+        _id: { $dayOfWeek: "$checkInTime" },
+        count: { $sum: 1 }
+      }
+    });
+
+    const stats = await CheckLog.aggregate(pipeline);
+
+    const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+    const formatted = days.map((day, index) => {
+      const found = stats.find(s => s._id === index + 1);
+      return {
+        name: day,
+        count: found ? found.count : 0
+      };
+    });
+
+    res.json(formatted);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

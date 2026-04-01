@@ -3,7 +3,7 @@ const router = express.Router()
 
 const requireAuth = require("../middleware/requireAuth")
 const authorizeRoles = require("../middleware/authorizeRoles")
-const { checkInVisitor, checkOutVisitor } = require('../controllers/checkController')
+const { checkInVisitor, checkOutVisitor, getPassDetails, getVisitorLogs } = require('../controllers/checkController')
 
 
 router.use(requireAuth)
@@ -23,5 +23,9 @@ router.post("/checkin", authorizeRoles("security"),checkInVisitor)
  * Access : Security
  */
 router.post("/checkout", authorizeRoles("security"), checkOutVisitor)
+
+
+router.get("/pass/:passNumber",authorizeRoles("security"), getPassDetails)
+router.get("/logs",authorizeRoles("security"), getVisitorLogs)
 
 module.exports = router

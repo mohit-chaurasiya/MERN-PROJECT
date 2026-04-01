@@ -13,6 +13,10 @@ import CreateAppointment from "./pages/employee/CreateAppointment";
 import CreateVisitor from "./pages/employee/CreateVisitor";
 import EmployeeVisitors from "./pages/employee/EmployeeVisitors"
 import EmployeeAppointmentTable from "./pages/employee/EmployeeAppointmentTable";
+import ScanVisitor from "./pages/security/ScanVisitor";
+import VisitorLogs from "./pages/security/VisitorLogs";
+
+
 
 function App() {
   return (
@@ -87,6 +91,24 @@ function App() {
           element={
             <RoleProtectedRoute allowedRole="security">
               <SecurityDashboard />
+            </RoleProtectedRoute>
+          }
+        />
+
+         <Route
+          path="/security/scan"
+          element={
+            <RoleProtectedRoute allowedRole="security">
+              <ScanVisitor />
+            </RoleProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/security/logs"
+          element={
+            <RoleProtectedRoute allowedRole="security">
+              <VisitorLogs />
             </RoleProtectedRoute>
           }
         />

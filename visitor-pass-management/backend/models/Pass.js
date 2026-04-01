@@ -36,7 +36,11 @@ const passSchema = new Schema({
     status:{
         type: String,
         default : 'active'
-    }
+    },
+    hostId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User"
+}
 },{
     timestamps : true
 })

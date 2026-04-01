@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, CalendarCheck, Ticket, User, LaptopMinimalCheck } from "lucide-react";
+import { LayoutDashboard, Users, CalendarCheck, Ticket, User, LaptopMinimalCheck, CameraIcon, Table } from "lucide-react";
 
 export const adminMenu = [
   {
@@ -58,8 +58,19 @@ export const securityMenu = [
     icon: LayoutDashboard 
   },
   {
+    name: "Scan Visitor",
+    path: "/security/scan",
+    icon: CameraIcon
+
+  },
+  {
     name: "Verify Pass",
     path: "/security/verify",
     icon: Ticket 
+  },
+  {
+    name:"Visitor Logs",
+    path : "/security/logs",
+    icon: Table
   }
 ];

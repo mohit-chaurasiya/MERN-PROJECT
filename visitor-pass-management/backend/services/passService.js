@@ -12,7 +12,7 @@ exports.createPassForAppointment = async (appointmentId, validFrom, validTill) =
     validTillDate.setDate(validTillDate.getDate())
 
     // time
-    validTillDate.setHours(17,0,0,0)
+    validTillDate.setHours(21,0,0,0)
 
     if (!appointment) {
         throw new Error("Appointment not found");

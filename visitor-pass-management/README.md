@@ -41,6 +41,8 @@ This project is a visitor pass management system built using the MERN stack. It 
    npm install lucide-react,
    npm install react-hot-toast,
    npx shadcn-ui@latest init
+   npm install recharts
+   npm install framer-motion
 
    ```
 
