@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/visitor-pass-management/frontend/index.html"
-    }
-  ]
-}

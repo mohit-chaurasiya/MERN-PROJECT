@@ -22,6 +22,8 @@ function EmployeeAppointmentTable() {
   const [loading, setLoading] = useState(true);
   const [buttonLoading, setButtonLoading] = useState(null);
 
+  
+
   const fetchAppointments = async () => {
     try {
       const res = await API.get("/appointments");
@@ -105,7 +107,7 @@ function EmployeeAppointmentTable() {
         shadow-lg overflow-x-auto
         ">
 
-          <Table className="text-gray-300">
+          <Table className="text-gray-300 overflow-hidden">
 
             {/* Header */}
             <TableHeader className="bg-[#0f172a] text-white">

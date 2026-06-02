@@ -6,13 +6,13 @@ import Topbar from '@/components/Topbar'
 
 function SecurityLayout({children}) {
   return (
-    <div className='flex'>
+    <div className='flex bg-[#0f172a] text-white'>
 
-       <div className="flex ">
+       <div className="flex bg-[#0f172a]">
         <Sidebar menuItems={securityMenu}/>
 
 
-        <div className="flex-1 bg-gray-100 min-h-screen p-6 md:ml-0">
+        <div className="flex-1  min-h-screen bg-[#0f172a]  p-6 md:ml-0">
           <Topbar role={"Security"} />
           <div className="p-6 rounded-xl">
             {children}

@@ -12,6 +12,12 @@ function CreateAppointment() {
   const [visitors, setVisitors] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const today = new Date();
+
+  today.setDate(today.getDate()+1);
+
+  const minDate = today.toISOString().split("T")[0];
+
   const [form, setForm] = useState({
     visitorId: "",
     purpose: "",
@@ -120,6 +126,7 @@ function CreateAppointment() {
             <input
               type="date"
               name="date"
+              min={minDate}
               value={form.date}
               onChange={handleChange}
               required
