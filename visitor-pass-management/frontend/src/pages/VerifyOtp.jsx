@@ -1,7 +1,107 @@
-import React from "react";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-function VerifyOtp() {
-  return <div></div>;
-}
+const VerifyOtp = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const email = location.state?.email || "";
+
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (value, index) => {
+    if (!/^\d*$/.test(value)) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value.slice(-1);
+    setOtp(newOtp);
+
+    if (value && index < 5) {
+      document.getElementById(`otp-${index + 1}`).focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      document.getElementById(`otp-${index - 1}`).focus();
+    }
+
+    if (e.key === "Enter") {
+      handleVerify();
+    }
+  };
+
+  const handleVerify = async () => {
+    const finalOtp = otp.join("");
+
+    if (finalOtp.length !== 6) {
+      return toast.error("Enter complete OTP");
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/verify-otp`,
+        {
+          email,
+          otp: finalOtp,
+        },
+      );
+
+      toast.success(res.data.message);
+
+      navigate("/reset-password", {
+        state: {
+          email,
+        },
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Invalid OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#030712] flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+        <h1 className="text-4xl font-bold text-white text-center mb-2">
+          Verify OTP
+        </h1>
+
+        <p className="text-gray-400 text-center mb-8">
+          Enter the 6-digit OTP sent to your email
+        </p>
+
+        <div className="flex justify-center gap-3 mb-8">
+          {otp.map((digit, index) => (
+            <input
+              key={index}
+              id={`otp-${index}`}
+              type="text"
+              maxLength="1"
+              value={digit}
+              onChange={(e) => handleChange(e.target.value, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              className="w-12 h-14 text-center text-xl font-bold bg-white/10 border border-white/20 rounded-xl text-white outline-none focus:border-violet-500"
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={handleVerify}
+          disabled={loading}
+          className="w-full h-14 rounded-xl font-semibold text-white bg-gradient-to-r from-violet-600 to-blue-500 hover:scale-[1.02] transition-all disabled:opacity-50"
+        >
+          {loading ? "Verifying..." : "Verify OTP"}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default VerifyOtp;
