@@ -179,40 +179,43 @@ exports.forgotPassword = async (req, res) => {
 
 
 // reset password
-exports.resetPassword = async (req, res) => {
+
+
+const resetPassword = async (req, res) => {
     try {
-        const { email, otp, password } = req.body;
+        const { email, password } = req.body;
 
-        const record = await Otp.findOne({ email });
+        const user = await User.findOne({
+            email,
+        });
 
-        if (!record) {
-            return res.status(400).json({
-                error: "OTP not found",
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
             });
         }
 
-        if (record.otp !== otp) {
-            return res.status(400).json({
-                error: "Invalid OTP",
-            });
-        }
+        const hashedPassword =
+            await bcrypt.hash(password, 10);
 
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
+        user.password = hashedPassword;
 
-        await User.findOneAndUpdate(
-            { email },
-            { password: hash }
-        );
-
-        await Otp.deleteMany({ email });
+        await user.save();
 
         res.status(200).json({
-            message: "Password updated successfully",
+            success: true,
+            message:
+                "Password updated successfully",
         });
     } catch (error) {
         res.status(500).json({
-            error: error.message,
+            success: false,
+            message: error.message,
         });
     }
+};
+
+module.exports = {
+    resetPassword,
 };
