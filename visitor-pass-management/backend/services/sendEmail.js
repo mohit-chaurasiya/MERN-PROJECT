@@ -21,34 +21,29 @@ transporter.verify(function (error, success) {
 });
 
 const sendMail = async (email, otp) => {
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
         from: `"Visitor Pass Management" <${process.env.SENDER_EMAIL}>`,
         to: email,
         subject: "OTP Verification",
 
         html: `
-      <h2>Visitor Pass Management</h2>
+        <div style="font-family:Arial,sans-serif;padding:20px">
+            <h2>Visitor Pass Management</h2>
 
-      <p>Your OTP is:</p>
+            <p>Your OTP is:</p>
 
-      <h1>${otp}</h1>
+            <h1 style="letter-spacing:5px">${otp}</h1>
 
-      <p>Valid for 5 minutes.</p>
-    `,
-    });
+            <p>This OTP is valid for 5 minutes.</p>
 
-    const info = await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: "OTP Verification",
-        html: `
-    <h2>Visitor Pass Management</h2>
-    <h1>${otp}</h1>
-  `,
+            <p>This is system generated email . Please do not reply</p>
+        </div>
+        `,
     });
 
     console.log("MAIL SENT:", info.messageId);
 };
+
 
 
 
