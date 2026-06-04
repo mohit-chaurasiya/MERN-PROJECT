@@ -1,28 +1,26 @@
-import Sidebar from '@/components/Sidebar'
-import React from 'react'
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/Topbar";
+import { securityMenu } from "@/config/menuConfig";
+import BottomNav from "../components/securityComponent/BottomNav";
 
-import { securityMenu } from '@/config/menuConfig'
-import Topbar from '@/components/Topbar'
-
-function SecurityLayout({children}) {
+function SecurityLayout({ children }) {
   return (
-    <div className='flex bg-[#0f172a] text-white'>
+    <div className="flex min-h-screen bg-[#020617] text-white overflow-x-hidden">
+      <div className="hidden md:block">
+        <Sidebar menuItems={securityMenu} />
+      </div>
 
-       <div className="flex bg-[#0f172a]">
-        <Sidebar menuItems={securityMenu}/>
-
-
-        <div className="flex-1  min-h-screen bg-[#0f172a]  p-6 md:ml-0">
-          <Topbar role={"Security"} />
-          <div className="p-6 rounded-xl">
-            {children}
-          </div>
-            
+      <main className="flex-1 min-w-0 p-4 md:p-6 pb-24 md:pb-6">
+        <div className="hidden md:block mb-6">
+          <Topbar role="Security" />
         </div>
+
+        {children}
+      </main>
+
+      <BottomNav />
     </div>
-      
-    </div>
-  )
+  );
 }
 
-export default SecurityLayout
+export default SecurityLayout;

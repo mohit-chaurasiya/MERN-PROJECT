@@ -3,13 +3,17 @@ import API from "../../services/api";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import { useEffect, useRef, useState } from "react";
 import SecurityLayout from "@/layouts/SecurityLayout";
+import { QrCode } from "lucide-react";
 
 const ScanVisitor = () => {
   const videoRef = useRef(null);
   const [visitor, setVisitor] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
+    if (!isScanning) return;
+
     const codeReader = new BrowserMultiFormatReader();
 
     let controls;
@@ -18,23 +22,22 @@ const ScanVisitor = () => {
       null,
       videoRef.current,
       async (result, err, ctrl) => {
+        controls = ctrl;
+
         if (result && !scanned) {
           ctrl.stop();
 
           setScanned(true);
+          setIsScanning(false);
 
           const scannedPass = result.getText();
-
-        //   console.log("QR:", scannedPass);
 
           try {
             const res = await API.get(`/check/pass/${scannedPass}`);
 
-            // console.log("Visitor Data:", res.data);
-
             setVisitor(res.data);
+            notify.success("Pass Scanned Successfully");
           } catch (error) {
-            // console.log(error);
             notify.error("Invalid Pass");
           }
         }
@@ -46,23 +49,20 @@ const ScanVisitor = () => {
         controls.stop();
       }
     };
-  }, [scanned]);
-
+  }, [isScanning, scanned]);
 
   const handleCheckin = async () => {
-    try{
-       const res =  await API.post("/check/checkin",{
-            passNumber: visitor.passNumber
-        });
+    try {
+      const res = await API.post("/check/checkin", {
+        passNumber: visitor.passNumber,
+      });
 
-
-        notify.success("Visitor Check In successfully")
-
-    }catch(err){
-        // console.log(err)
-        notify.info('Visitor already Checked in')
+      notify.success("Visitor Check In successfully");
+    } catch (err) {
+      // console.log(err)
+      notify.info("Visitor already Checked in");
     }
-  }
+  };
 
   const handleCheckout = async () => {
     try {
@@ -74,9 +74,10 @@ const ScanVisitor = () => {
 
       setVisitor(null);
       setScanned(false);
+      setIsScanning(true);
     } catch (err) {
-        notify.error("Please check in ")
-    //   console.log(err);
+      notify.error("Please check in ");
+      //   console.log(err);
     }
   };
 
@@ -91,75 +92,253 @@ const ScanVisitor = () => {
 
   return (
     <SecurityLayout>
-      <h1 className="text-xl font-bold mb-4">Scan Visitor Pass</h1>
+      {/* Hero */}
 
-      <div className="mb-6 w-295
-      ">
-        <video ref={videoRef} className="w-full max-w-md rounded-lg border" />
+      <div
+        className="
+      mb-6
+      rounded-3xl
+      border border-white/10
+      bg-gradient-to-r
+      from-violet-600/20
+      via-blue-600/20
+      to-cyan-600/20
+      p-6
+    "
+      >
+        <h1 className="text-3xl font-bold text-white">Scan Visitor Pass</h1>
+
+        <p className="text-slate-300 mt-2">
+          Scan QR code and manage visitor entry.
+        </p>
       </div>
 
-      {scanned && (
-        <div className="bg-white shadow rounded-xl p-6 max-w-md">
-          <h2 className="text-xl font-semibold mb-3">Visitor Details</h2>
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Scanner */}
 
-          <p>
-            <strong>Name: <span className="text-gray-500">{visitor?.visitorName}</span> </strong>
-          </p>
-          <p>
-            <strong>Host: <span className="text-gray-500">{visitor?.hostName}</span></strong>
-          </p>
-          <p>
-            <strong>Purpose: <span className="text-gray-500">{visitor?.purpose}</span> </strong>
-          </p>
-          <p>
-            <strong>Status: <span className={`text-red-500 ${visitor?.status } === "INSIDE" ? "text-green-600" : "text-red-700"`}>{visitor?.status }</span> </strong>
-          </p>
-          <p>
+        <div
+          className="
+  bg-[#0f172a]
+  border border-white/10
+  rounded-3xl
+  p-5
+"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-white">QR Scanner</h2>
 
-            <strong>
-              Date: {new Date(visitor?.date).toLocaleDateString("en-IN")}
-            </strong>
-          </p>
-
-          {!isAppointmentToday() && (
-            <p className="text-red-600 font-semibold mt-2">
-              ⚠ Appointment is not scheduled for today
-            </p>
-          )}
-
-          <div className="mt-4 flex gap-3">
-
-           <button 
-           onClick={()=>{handleCheckin()}}
-           disabled={!isAppointmentToday()}
-           className={` text-white px-4 py-2 rounded ${
-            isAppointmentToday() ? "bg-green-600 " : "bg-gray-400 cursor-not-allowed"
-           }`}
-           >
-            Check In
-           </button>
-
-            <button
-              onClick={() => {
-                handleCheckout();
-              }}
-              className="bg-red-600 text-white px-4 py-2 rounded"
+            <span
+              className="
+      bg-green-500/20
+      text-green-400
+      px-3
+      py-1
+      rounded-full
+      text-xs
+      font-medium
+      "
             >
-              Check Out
-            </button>
-
-            <button
-              onClick={() => {
-                setVisitor(null);
-                setScanned(false);
-              }}
-              className="bg-gray-600 text-white px-4 py-2 rounded"
-            >
-              Scan Next
-            </button>
+              Ready
+            </span>
           </div>
+
+          {!isScanning ? (
+            <div
+              className="
+      h-[220px]
+      flex
+      flex-col
+      items-center
+      justify-center
+      rounded-2xl
+      border
+      border-dashed
+      border-white/10
+      "
+            >
+              <p className="text-slate-400 mb-4">Scanner is currently off</p>
+
+              <button
+                onClick={() => setIsScanning(true)}
+                className="
+        bg-violet-600
+        hover:bg-violet-700
+        text-white
+        px-6
+        py-3
+        rounded-xl
+        transition
+        "
+              >
+                Start Scan
+              </button>
+            </div>
+          ) : (
+            <video
+              ref={videoRef}
+              className="
+      w-full
+      h-[220px]
+      md:h-[300px]
+      xl:h-[350px]
+      object-cover
+      rounded-2xl
+      border
+      border-white/10
+      "
+            />
+          )}
         </div>
-      )}
+
+        {/* Visitor Details */}
+
+        <div
+          className="
+        bg-[#0f172a]
+        border border-white/10
+        rounded-3xl
+        p-6
+      "
+        >
+          {!visitor ? (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <QrCode size={60} className="text-violet-400 mb-4" />
+
+              <h3 className="text-white text-xl font-semibold">
+                Ready To Scan
+              </h3>
+
+              <p className="text-slate-400 mt-2">
+                Scan a visitor QR pass to display details
+              </p>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-2xl font-semibold text-white mb-6">
+                Visitor Details
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-slate-400 text-sm">Visitor Name</p>
+
+                  <p className="text-white font-medium">
+                    {visitor?.visitorName}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-slate-400 text-sm">Host</p>
+
+                  <p className="text-white font-medium">{visitor?.hostName}</p>
+                </div>
+
+                <div>
+                  <p className="text-slate-400 text-sm">Purpose</p>
+
+                  <p className="text-white font-medium">{visitor?.purpose}</p>
+                </div>
+
+                <div>
+                  <p className="text-slate-400 text-sm">Date</p>
+
+                  <p className="text-white font-medium">
+                    {new Date(visitor?.date).toLocaleDateString("en-IN")}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-slate-400 text-sm mb-2">Status</p>
+
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      visitor?.status === "INSIDE"
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-red-500/20 text-red-400"
+                    }`}
+                  >
+                    {visitor?.status}
+                  </span>
+                </div>
+
+                {isAppointmentToday() ? (
+                  <div
+                    className="
+                  bg-green-500/10
+                  border border-green-500/20
+                  text-green-400
+                  p-3
+                  rounded-xl
+                "
+                  >
+                    ✓ Appointment Scheduled For Today
+                  </div>
+                ) : (
+                  <div
+                    className="
+                  bg-red-500/10
+                  border border-red-500/20
+                  text-red-400
+                  p-3
+                  rounded-xl
+                "
+                  >
+                    ⚠ Appointment Not Scheduled For Today
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                <button
+                  onClick={handleCheckin}
+                  disabled={!isAppointmentToday()}
+                  className={`py-3 rounded-xl font-medium transition ${
+                    isAppointmentToday()
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "bg-slate-700 text-slate-400 cursor-not-allowed"
+                  }`}
+                >
+                  Check In
+                </button>
+
+                <button
+                  onClick={handleCheckout}
+                  className="
+                py-3
+                rounded-xl
+                font-medium
+                bg-red-600
+                hover:bg-red-700
+                text-white
+                transition
+              "
+                >
+                  Check Out
+                </button>
+
+                <button
+                  onClick={() => {
+                    setVisitor(null);
+                    setScanned(false);
+                    setIsScanning(true);
+                  }}
+                  className="
+                py-3
+                rounded-xl
+                font-medium
+                bg-slate-700
+                hover:bg-slate-600
+                text-white
+                transition
+              "
+                >
+                  Scan Next
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </SecurityLayout>
   );
 };

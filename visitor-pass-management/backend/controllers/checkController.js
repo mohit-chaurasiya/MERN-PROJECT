@@ -181,58 +181,62 @@ exports.getPassDetails = async (req, res) => {
     }
 }
 
-exports.getVisitorLogs = async (req,res) => {
-    try{
-       
-        const {from , to}  = req.query
+exports.getVisitorLogs = async (req, res) => {
+    try {
 
-        let filter = {}
+        const { from, to } = req.query;
 
-        if (from && to){
-            filter.checkInTime = {
-                $gte : new Date(from),
-                $lte : new Date(to)
-            }
+        let filter = {};
+
+        // Security guard sirf apne logs dekhe
+        if (req.user.role === "security") {
+            filter.scannedBy = req.user._id;
         }
 
-            const logs = await CheckLog.find(filter)
+        // Date filter
+        if (from && to) {
+            filter.checkInTime = {
+                $gte: new Date(from),
+                $lte: new Date(to)
+            };
+        }
+
+        const logs = await CheckLog.find(filter)
             .populate({
                 path: "passId",
-                populate : [
+                populate: [
                     {
-                        path:"visitorId",
+                        path: "visitorId",
                         select: "name"
                     },
                     {
-                        path : "appointmentId",
-                        populate : {
-                            path:"hostId",
+                        path: "appointmentId",
+                        populate: {
+                            path: "hostId",
                             select: "name"
                         }
                     }
                 ]
             })
-            .populate("scannedBy","name")
-            .sort({createdAt : -1})
+            .populate("scannedBy", "name")
+            .sort({ createdAt: -1 });
 
+        const formattedLogs = logs.map(log => ({
+            id: log._id,
+            visitorName: log.passId?.visitorId?.name || "N/A",
+            hostName: log.passId?.appointmentId?.hostId?.name || "N/A",
+            purpose: log.passId?.appointmentId?.purpose || "N/A",
+            checkIn: log.checkInTime,
+            checkOut: log.checkOutTime || null,
+            scannedBy: log.scannedBy?.name || "security"
+        }));
 
-            const formattedLogs = logs.map(log => ({
-                id: log._id,
-                visitorName : log.passId?.visitorId?.name || "N/A",
-                hostName: log.passId?.appointmentId?.hostId?.name || "N/A",
+        res.status(200).json(formattedLogs);
 
-                purpose : log.passId?.appointmentId?.purpose || "N/A",
-
-                checkIn: log.checkInTime,
-                checkOut:log.checkOutTime || null,
-
-                scannedBy : log.scannedBy?.name || "security"
-            }))
-
-        res.status(200).json(formattedLogs)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: err.message
+        });
     }
-    catch(err){
-        console.log(err)
-        res.status(500).json({error:err.message})
-    }
-}
+};

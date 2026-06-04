@@ -7,93 +7,93 @@ const User = require("../models/User")
 
 exports.getDashboardStats = async (req, res) => {
 
-    try{
+  try {
 
-        const totalEmployee = await User.countDocuments({role: "employee"})
-        const totalSecurity = await User.countDocuments({role: "security"})
-        const totalVisitors = await Visitor.countDocuments()
-        const activePasses = await Pass.countDocuments({stats: "active"})
-        const approveAppointments = await Appointment.countDocuments({
-            status : "approved"
-        })
-        const pendingAppointments = await Appointment.countDocuments({
-            status : "pending"
-        })
-        
-        const rejectAppointments = await Appointment.countDocuments({
-            status : "rejected"
-        })
+    const totalEmployee = await User.countDocuments({ role: "employee" })
+    const totalSecurity = await User.countDocuments({ role: "security" })
+    const totalVisitors = await Visitor.countDocuments()
+    const activePasses = await Pass.countDocuments({ stats: "active" })
+    const approveAppointments = await Appointment.countDocuments({
+      status: "approved"
+    })
+    const pendingAppointments = await Appointment.countDocuments({
+      status: "pending"
+    })
 
-        const today = new Date()
-        today.setHours(0,0,0,0)
+    const rejectAppointments = await Appointment.countDocuments({
+      status: "rejected"
+    })
 
-        const todayCheckins = await CheckLog.countDocuments({
-            checkInTime : { $gte : today}
-        })
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-        const todayCheckout = await CheckLog.countDocuments({
-            checkoutTime : { $gte : today}
-        })
+    const todayCheckins = await CheckLog.countDocuments({
+      checkInTime: { $gte: today }
+    })
 
-        res.status(200).json({
-            totalEmployee,
-            totalSecurity,
-            totalVisitors,
-            activePasses,
-            approveAppointments,
-            pendingAppointments,
-            rejectAppointments,
-            todayCheckins,
-            todayCheckout
-        })
+    const todayCheckout = await CheckLog.countDocuments({
+      checkoutTime: { $gte: today }
+    })
 
-    }catch(error){
-            
-        res.status(400).json({
-            error: error.message
-        })
-    }
+    res.status(200).json({
+      totalEmployee,
+      totalSecurity,
+      totalVisitors,
+      activePasses,
+      approveAppointments,
+      pendingAppointments,
+      rejectAppointments,
+      todayCheckins,
+      todayCheckout
+    })
+
+  } catch (error) {
+
+    res.status(400).json({
+      error: error.message
+    })
+  }
 }
 
-exports.getEmployeeStats = async (req, res)=>{
-    try{
-        
-        const employeeId = req.user._id
+exports.getEmployeeStats = async (req, res) => {
+  try {
 
-        const totalVisitor = await Visitor.countDocuments({
-            hostId: employeeId
-        })
+    const employeeId = req.user._id
 
-        const total = await Appointment.countDocuments({
-            hostId : employeeId
-        })
+    const totalVisitor = await Visitor.countDocuments({
+      hostId: employeeId
+    })
 
-        const pending = await Appointment.countDocuments({
-            hostId: employeeId,
-            status: "pending"
-        })
+    const total = await Appointment.countDocuments({
+      hostId: employeeId
+    })
 
-        const approved = await Appointment.countDocuments({
-            hostId: employeeId,
-            status: "approved"
-        })
+    const pending = await Appointment.countDocuments({
+      hostId: employeeId,
+      status: "pending"
+    })
 
-        const rejected = await Appointment.countDocuments({
-            hostId: employeeId,
-            status: "rejected"
-        })
+    const approved = await Appointment.countDocuments({
+      hostId: employeeId,
+      status: "approved"
+    })
 
-        res.status(200).json({
-            totalVisitor,
-            total,
-            pending,
-            approved,
-            rejected
-        })
+    const rejected = await Appointment.countDocuments({
+      hostId: employeeId,
+      status: "rejected"
+    })
 
-    }catch (err){
-        error: "Failed to fetch employee stats"
-    }
+    res.status(200).json({
+      totalVisitor,
+      total,
+      pending,
+      approved,
+      rejected
+    })
+
+  } catch (err) {
+    error: "Failed to fetch employee stats"
+  }
 }
 
 exports.getWeeklyStats = async (req, res) => {
@@ -138,7 +138,7 @@ exports.getWeeklyStats = async (req, res) => {
 
     const stats = await CheckLog.aggregate(pipeline);
 
-    const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     const formatted = days.map((day, index) => {
       const found = stats.find(s => s._id === index + 1);
@@ -152,5 +152,49 @@ exports.getWeeklyStats = async (req, res) => {
 
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+
+exports.getSecurityStats = async (req, res) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const todayVisitors = await Visitor.countDocuments({
+      createdAt: { $gte: today },
+    });
+
+    const checkedIn = await CheckLog.countDocuments({
+      checkInTime: { $gte: today },
+      checkOutTime: null,
+    });
+
+    const checkedOut = await CheckLog.countDocuments({
+      checkOutTime: { $gte: today },
+    });
+
+    const recentActivity = await CheckLog.find()
+      .populate({
+        path: "passId",
+        populate: {
+          path: "visitorId",
+          select: "name",
+        },
+      })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    res.status(200).json({
+      todayVisitors,
+      checkedIn,
+      checkedOut,
+      activeVisitors: checkedIn,
+      recentActivity,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };

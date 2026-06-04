@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
+import VerifyPass from "./pages/security/VerifyPass";
 
 function App() {
   return (
@@ -107,6 +108,15 @@ function App() {
           element={
             <RoleProtectedRoute allowedRole="security">
               <ScanVisitor />
+            </RoleProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/security/verify"
+          element={
+            <RoleProtectedRoute allowedRole="security">
+              <VerifyPass />
             </RoleProtectedRoute>
           }
         />
