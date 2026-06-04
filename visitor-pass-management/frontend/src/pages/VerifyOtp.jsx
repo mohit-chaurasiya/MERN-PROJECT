@@ -54,11 +54,24 @@ const VerifyOtp = () => {
 
       toast.success(res.data.message);
 
-      navigate("/reset-password", {
-        state: {
-          email,
-        },
-      });
+      if (location.state?.type === "signup") {
+        await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
+          name: location.state.name,
+          email: location.state.email,
+          password: location.state.password,
+          role: location.state.role,
+        });
+
+        toast.success("Account created successfully 🎉");
+
+        navigate("/login");
+      } else {
+        navigate("/reset-password", {
+          state: {
+            email,
+          },
+        });
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid OTP");
     } finally {
@@ -70,11 +83,13 @@ const VerifyOtp = () => {
     <div className="min-h-screen bg-[#030712] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
         <h1 className="text-4xl font-bold text-white text-center mb-2">
-          Verify OTP
+          {location.state?.type === "signup" ? "Verify Email " : "Verify Otp"}
         </h1>
 
         <p className="text-gray-400 text-center mb-8">
-          Enter the 6-digit OTP sent to your email
+          Enter the 6-digit OTP sent to your
+          <br />
+          <span className="text-purple-400">{email}</span>
         </p>
 
         <div className="flex justify-center gap-3 mb-8">

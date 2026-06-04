@@ -43,26 +43,35 @@ const Signup = () => {
       return;
     }
 
+    if (form.password.length < 6) {
+      notify.error("Password must be at least 6 characters");
+      return;
+    }
+
     try {
       setLoading(true);
 
-      await API.post("/auth/register", {
-        name: form.name,
+      await API.post("/auth/send-otp", {
         email: form.email,
-        password: form.password,
-        role: form.role,
       });
 
-      notify.success("Account created successfully 🎉");
+      notify.success("OTP sent successfully 📩");
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
+      navigate("/verify-otp", {
+        state: {
+          type: "signup",
+
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          role: form.role,
+        },
+      });
     } catch (err) {
       notify.error(
         err?.response?.data?.message ||
           err?.response?.data?.error ||
-          "Registration failed",
+          "Failed to send OTP",
       );
     } finally {
       setLoading(false);
@@ -165,7 +174,7 @@ const Signup = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute right-4 top-2 -translate-y-1/2 text-gray-400"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>

@@ -4,11 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import API from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import { notify } from "../utils/notify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -102,12 +104,13 @@ function Login() {
           "
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="
+        <div className="relative mb-4">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="
             w-full
             mb-4
             px-4
@@ -120,7 +123,16 @@ function Login() {
             outline-none
             focus:border-purple-500
           "
-        />
+          />
+
+          <button
+            type="button"
+            className="absolute right-4 top-8 -translate-y-1/2 text-gray-400"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
 
         <div className="flex justify-between items-center mb-6 text-sm">
           <label className="text-gray-400 flex items-center gap-2">

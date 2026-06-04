@@ -22,13 +22,14 @@ function Topbar({ role }) {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
-    <div className="flex justify-between items-center bg-[#1e293b] border border-gray-800 shadow-lg
-  mx-5  px-6 py-3 rounded-xl ">
-
+    <div
+      className="flex justify-between items-center bg-[#1e293b] border border-gray-800 shadow-lg
+  mx-5  px-6 py-3 rounded-xl "
+    >
       {/* Left */}
       <h1 className="text-white text-lg font-semibold tracking-wide">
         {role} Dashboard
@@ -36,7 +37,6 @@ function Topbar({ role }) {
 
       {/* Right */}
       <div className="flex items-center gap-4 relative" ref={dropdownRef}>
-        
         {/* Bell */}
         <div className="p-2 hover:bg-[#334155] rounded-full cursor-pointer">
           <Bell className="text-gray-300" size={20} />
@@ -55,10 +55,11 @@ function Topbar({ role }) {
 
         {/* Dropdown */}
         {open && (
-          <div className="absolute right-0 top-12 w-52 
+          <div
+            className="absolute right-0 top-12 w-52 
           bg-[#344664]  border border-white/20 
-          rounded-xl shadow-xl p-2 z-50">
-
+          rounded-xl shadow-xl p-2 z-50"
+          >
             {/* User Info */}
             <div className="p-3  hover:bg-[#4c5c77]  rounded">
               <p className="text-gray-300 font-semibold">{user?.name}</p>
@@ -74,7 +75,6 @@ function Topbar({ role }) {
               <LogOut size={16} />
               Logout
             </button>
-
           </div>
         )}
       </div>
