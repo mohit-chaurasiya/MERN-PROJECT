@@ -181,7 +181,7 @@ exports.forgotPassword = async (req, res) => {
 // reset password
 
 
-const resetPassword = async (req, res) => {
+exports.resetPassword = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -216,6 +216,3 @@ const resetPassword = async (req, res) => {
     }
 };
 
-module.exports = {
-    resetPassword,
-};
