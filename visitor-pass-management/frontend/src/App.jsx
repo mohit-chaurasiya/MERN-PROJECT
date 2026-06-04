@@ -16,6 +16,9 @@ import EmployeeAppointmentTable from "./pages/employee/EmployeeAppointmentTable"
 import ScanVisitor from "./pages/security/ScanVisitor";
 import VisitorLogs from "./pages/security/VisitorLogs";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyOtp from "./pages/VerifyOtp";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           path="/admin"
           element={

@@ -30,6 +30,7 @@ This project is a visitor pass management system built using the MERN stack. It 
     npm install cors,
     npm install multer,
     npm install nodemailer,
+    npm install otp-generator
     npm install twilio
     ```
   ### Frontend
@@ -43,6 +44,7 @@ This project is a visitor pass management system built using the MERN stack. It 
    npx shadcn-ui@latest init
    npm install recharts
    npm install framer-motion
+   npm install react-icons
 
    ```
 
