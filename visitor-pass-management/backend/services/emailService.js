@@ -1,30 +1,55 @@
-const nodemailer = require("nodemailer")
+const axios = require("axios");
 
-const transporter = nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
 const sendEmail = async (to, subject, text, pdfBuffer) => {
-    await transporter.sendMail({
-
-        from: process.env.EMAIL_USER,
-        to,
-        subject,
-        text,
-
-        attachments: [
+    try {
+        const response = await axios.post(
+            "https://api.brevo.com/v3/smtp/email",
             {
-                filename: "visitor-pass.pdf",
-                content: pdfBuffer
-            }
-        ]
-    })
-}
+                sender: {
+                    name: "Visitor Pass Management",
+                    email: process.env.SENDER_EMAIL,
+                },
 
-module.exports = sendEmail
+                to: [
+                    {
+                        email: to,
+                    },
+                ],
+
+                subject: subject,
+
+                htmlContent: `
+          <div style="font-family: Arial, sans-serif;">
+            <h2>Visitor Pass Management</h2>
+            <p>${text}</p>
+          </div>
+        `,
+
+                attachment: [
+                    {
+                        name: "visitor-pass.pdf",
+                        content: pdfBuffer.toString("base64"),
+                    },
+                ],
+            },
+            {
+                headers: {
+                    accept: "application/json",
+                    "api-key": process.env.BREVO_API_KEY,
+                    "content-type": "application/json",
+                },
+            }
+        );
+
+        console.log("PDF MAIL SENT:", response.data);
+        return true;
+    } catch (error) {
+        console.error(
+            "PDF EMAIL ERROR:",
+            error.response?.data || error.message
+        );
+        throw error;
+    }
+};
+
+module.exports = sendEmail;
