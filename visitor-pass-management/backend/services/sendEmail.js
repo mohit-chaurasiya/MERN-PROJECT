@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "smtp-relay.brevo.com",
     port: 587,
     secure: false,
 
@@ -10,6 +10,8 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS,
     },
 });
+
+
 transporter.verify(function (error, success) {
     if (error) {
         console.log(error);
@@ -20,7 +22,7 @@ transporter.verify(function (error, success) {
 
 const sendMail = async (email, otp) => {
     await transporter.sendMail({
-        from: process.env.EMAIL_USER,
+        from: `"Visitor Pass Management" <${process.env.SENDER_EMAIL}>`,
         to: email,
         subject: "OTP Verification",
 

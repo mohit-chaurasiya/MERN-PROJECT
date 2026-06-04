@@ -164,6 +164,7 @@ exports.forgotPassword = async (req, res) => {
 
         console.log("Before sendMail");
         await sendMail(email, otp);
+        console.log("Sending mail to:", email);
         console.log("After sendMail");
 
         res.status(200).json({
