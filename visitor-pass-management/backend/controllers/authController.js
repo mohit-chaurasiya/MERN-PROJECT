@@ -162,7 +162,9 @@ exports.forgotPassword = async (req, res) => {
             expiresAt: new Date(Date.now() + 5 * 60 * 1000),
         });
 
+        console.log("Before sendMail");
         await sendMail(email, otp);
+        console.log("After sendMail");
 
         res.status(200).json({
             message: "OTP sent successfully",
