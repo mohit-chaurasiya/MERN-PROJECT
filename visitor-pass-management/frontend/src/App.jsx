@@ -11,12 +11,11 @@ import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import Visitors from "./pages/admin/Visitors";
 import CreateAppointment from "./pages/employee/CreateAppointment";
 import CreateVisitor from "./pages/employee/CreateVisitor";
-import EmployeeVisitors from "./pages/employee/EmployeeVisitors"
+import EmployeeVisitors from "./pages/employee/EmployeeVisitors";
 import EmployeeAppointmentTable from "./pages/employee/EmployeeAppointmentTable";
 import ScanVisitor from "./pages/security/ScanVisitor";
 import VisitorLogs from "./pages/security/VisitorLogs";
-
-
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -24,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route
           path="/admin"
           element={
@@ -69,22 +69,23 @@ function App() {
           }
         />
 
-        <Route 
-        path="/employee/appointments"
-        element={
-          <RoleProtectedRoute allowedRole="employee">
-            <EmployeeAppointmentTable />
-          </RoleProtectedRoute>
-        }
+        <Route
+          path="/employee/appointments"
+          element={
+            <RoleProtectedRoute allowedRole="employee">
+              <EmployeeAppointmentTable />
+            </RoleProtectedRoute>
+          }
         />
 
-         <Route
-         path="/employee/visitors"
-         element={
-          <RoleProtectedRoute allowedRole="employee">
-            <EmployeeVisitors />
-          </RoleProtectedRoute>
-         } />
+        <Route
+          path="/employee/visitors"
+          element={
+            <RoleProtectedRoute allowedRole="employee">
+              <EmployeeVisitors />
+            </RoleProtectedRoute>
+          }
+        />
 
         <Route
           path="/security"
@@ -95,7 +96,7 @@ function App() {
           }
         />
 
-         <Route
+        <Route
           path="/security/scan"
           element={
             <RoleProtectedRoute allowedRole="security">

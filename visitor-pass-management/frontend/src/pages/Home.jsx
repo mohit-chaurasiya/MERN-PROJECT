@@ -1,19 +1,22 @@
+import BackgroundEffects from "../components/homePage/BackgroundEffects";
+import CTA from "../components/homePage/CTA";
+import Features from "../components/homePage/Features";
+import Hero from "../components/homePage/Hero";
+import HowItWorks from "../components/homePage/HowItWorks";
 import Navbar from "../components/homePage/Navbar";
+import Stats from "../components/homePage/Stats";
 
 function Home() {
   return (
     <>
-      <Navbar />
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-blue-900">
-            Visitor Pass Management System
-          </h1>
-
-          <p className="mt-4 text-gray-600">
-            Welcome to our company visitor management portal
-          </p>
-        </div>
+      <div className="relative min-h-screen bg-[#050816] text-white overflow-x-hidden">
+        <BackgroundEffects />
+        <Navbar />
+        <Hero />
+        <Stats />
+        <Features />
+        <HowItWorks />
+        <CTA />
       </div>
     </>
   );
