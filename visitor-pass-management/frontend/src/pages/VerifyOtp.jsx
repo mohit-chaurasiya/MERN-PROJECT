@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -11,6 +11,18 @@ const VerifyOtp = () => {
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(30);
+  const [resending, setResending] = useState(false);
+
+  useEffect(() => {
+    if (timer <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timer]);
 
   const handleChange = (value, index) => {
     if (!/^\d*$/.test(value)) return;
@@ -31,6 +43,24 @@ const VerifyOtp = () => {
 
     if (e.key === "Enter") {
       handleVerify();
+    }
+  };
+
+  const handleResendOtp = async () => {
+    try {
+      setResending(true);
+
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/send-otp`, {
+        email,
+      });
+
+      toast.success("OTP resent successfully 📩");
+
+      setTimer(30);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to resend OTP");
+    } finally {
+      setResending(false);
     }
   };
 
@@ -92,7 +122,16 @@ const VerifyOtp = () => {
           <span className="text-purple-400">{email}</span>
         </p>
 
-        <div className="flex justify-center gap-3 mb-8">
+        <div
+          onPaste={(e) => {
+            const pasted = e.clipboardData.getData("text").trim();
+
+            if (/^\d{6}$/.test(pasted)) {
+              setOtp(pasted.split(""));
+            }
+          }}
+          className="flex justify-center gap-3 mb-8"
+        >
           {otp.map((digit, index) => (
             <input
               key={index}
@@ -114,6 +153,28 @@ const VerifyOtp = () => {
         >
           {loading ? "Verifying..." : "Verify OTP"}
         </button>
+
+        <div className="mt-6 text-center">
+          {timer > 0 ? (
+            <p className="text-gray-400 text-sm">
+              Resend OTP in{" "}
+              <span className="text-purple-400 font-semibold">{timer}s</span>
+            </p>
+          ) : (
+            <button
+              onClick={handleResendOtp}
+              disabled={resending}
+              className="
+        text-purple-400
+        hover:text-purple-300
+        font-medium
+        transition
+      "
+            >
+              {resending ? "Resending..." : "Resend OTP"}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

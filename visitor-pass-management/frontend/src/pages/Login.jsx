@@ -5,6 +5,7 @@ import API from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import { notify } from "../utils/notify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -78,6 +79,21 @@ function Login() {
           p-8
         "
       >
+        <Link
+          to="/"
+          className="
+    inline-flex
+    items-center
+    gap-2
+    text-sm
+    text-purple-400
+    hover:text-purple-300
+    mb-6
+  "
+        >
+          <ArrowLeft size={16} />
+          🏠 Home
+        </Link>
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white">Welcome Back 👋</h1>
 
