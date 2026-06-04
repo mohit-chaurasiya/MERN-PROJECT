@@ -62,11 +62,12 @@ exports.loginUser = async (req, res) => {
 exports.sendOtp = async (req, res) => {
     try {
         const { email } = req.body
-        const otp = otpGenerator.generate(6, {
-            upperCaseAlphabets: false,
-            specialChars: false,
-            lowerCaseAlphabets: false,
-        });
+        const otp = Math.floor(
+            100000 + Math.random() * 900000
+        ).toString();
+
+
+        console.log("Generated otp", otp)
 
         await Otp.deleteMany({ email });
 
@@ -143,11 +144,12 @@ exports.forgotPassword = async (req, res) => {
             });
         }
 
-        const otp = otpGenerator.generate(6, {
-            upperCaseAlphabets: false,
-            specialChars: false,
-            lowerCaseAlphabets: false,
-        });
+        const otp = Math.floor(
+            100000 + Math.random() * 900000
+        ).toString();
+
+        console.log(req.body);
+        console.log("OTP:", otp);
 
         await Otp.deleteMany({ email });
 
