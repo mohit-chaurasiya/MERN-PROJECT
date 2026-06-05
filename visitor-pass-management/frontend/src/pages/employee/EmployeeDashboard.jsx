@@ -22,6 +22,7 @@ const EmployeeDashboard = () => {
       try {
         const res = await API.get("/dashboard/employee");
         const chartRes = await API.get("/dashboard/weekly");
+        console.log(chartRes.data);
 
         setCount(res.data);
         setChartData(chartRes.data);

@@ -59,7 +59,7 @@ const ScanVisitor = () => {
 
       notify.success("Visitor Check In successfully");
     } catch (err) {
-      // console.log(err)
+      console.log(err);
       notify.info("Visitor already Checked in");
     }
   };
@@ -89,6 +89,8 @@ const ScanVisitor = () => {
 
     return today === appointmentDate;
   };
+
+  const isDisabled = !isAppointmentToday() || visitor?.status === "checked-out";
 
   return (
     <SecurityLayout>
@@ -291,19 +293,19 @@ const ScanVisitor = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
                 <button
                   onClick={handleCheckin}
-                  disabled={!isAppointmentToday()}
+                  disabled={isDisabled}
                   className={`py-3 rounded-xl font-medium transition ${
                     isAppointmentToday()
                       ? "bg-green-600 hover:bg-green-700 text-white"
                       : "bg-slate-700 text-slate-400 cursor-not-allowed"
-                  }`}
+                  } ${isDisabled ? "hidden" : "block"}`}
                 >
                   Check In
                 </button>
 
                 <button
                   onClick={handleCheckout}
-                  className="
+                  className={`
                 py-3
                 rounded-xl
                 font-medium
@@ -311,7 +313,8 @@ const ScanVisitor = () => {
                 hover:bg-red-700
                 text-white
                 transition
-              "
+
+                ${isDisabled ? "hidden" : "block"}`}
                 >
                   Check Out
                 </button>
