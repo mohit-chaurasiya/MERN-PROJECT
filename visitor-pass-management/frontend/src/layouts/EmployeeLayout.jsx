@@ -9,7 +9,7 @@ function EmployeeLayout({ children }) {
   return (
     <div className="flex min-h-screen bg-[#0f172a] text-white">
       <div className="hidden md:block">
-        <Sidebar menuItems={employeeMenu} />
+        <Sidebar menuItems={employeeMenu} role="Employee" />
       </div>
 
       <div className="flex-1 bg-[#0f172a] h-screen overflow-y-auto py-6 md:ml-0">

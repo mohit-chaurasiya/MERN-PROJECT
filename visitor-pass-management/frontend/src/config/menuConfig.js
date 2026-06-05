@@ -7,6 +7,11 @@ export const adminMenu = [
     icon: LayoutDashboard
   },
   {
+    name: "Manage Users",
+    path: "/admin/users",
+    icon: LayoutDashboard
+  },
+  {
     name: "Visitors",
     path: "/admin/visitors",
     icon: Users
@@ -55,7 +60,7 @@ export const securityMenu = [
   {
     name: "Dashboard",
     path: "/security",
-    icon: LayoutDashboard 
+    icon: LayoutDashboard
   },
   {
     name: "Scan Visitor",
@@ -66,11 +71,11 @@ export const securityMenu = [
   {
     name: "Verify Pass",
     path: "/security/verify",
-    icon: Ticket 
+    icon: Ticket
   },
   {
-    name:"Visitor Logs",
-    path : "/security/logs",
+    name: "Visitor Logs",
+    path: "/security/logs",
     icon: Table
   }
 ];

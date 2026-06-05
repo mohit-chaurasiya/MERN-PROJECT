@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Shield } from "lucide-react";
 
-const Sidebar = ({ menuItems }) => {
+const Sidebar = ({ menuItems, role }) => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
@@ -107,7 +107,7 @@ const Sidebar = ({ menuItems }) => {
         {/* Footer */}
         <div className="absolute bottom-5 left-4 right-4">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-            <p className="text-xs text-slate-400">Security Portal</p>
+            <p className="text-xs text-slate-400">{role} Portal</p>
 
             <h3 className="text-white font-semibold mt-1">
               Access Control Active

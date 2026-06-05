@@ -2,10 +2,7 @@ const Visitor = require('../models/Visitor');
 
 //  create Vistor 
 exports.createVisitor = async (req, res) => {
-
- 
-
-        
+       
     try{
 
         const hostId = req.user._id

@@ -1,6 +1,7 @@
 const express = require('express');
 
 const { registerUser,
+    getAllUsers,
     loginUser,
     sendOtp,
     verifyOtp,
@@ -20,8 +21,9 @@ const router = express.Router();
  */
 
 router.post('/register', registerUser);
+router.get('/users', getAllUsers);
 
-// Register user
+// login user
 
 /**
  * Method : POST

@@ -24,6 +24,7 @@ import Profile from "./pages/Profile";
 import AdminLayout from "./layouts/AdminLayout";
 import EmployeeLayout from "./layouts/EmployeeLayout";
 import SecurityLayout from "./layouts/SecurityLayout";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 function App() {
   return (
@@ -40,6 +41,14 @@ function App() {
           element={
             <RoleProtectedRoute allowedRole="admin">
               <AdminDashboard />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <RoleProtectedRoute allowedRole="admin">
+              <AdminUsers />
             </RoleProtectedRoute>
           }
         />
