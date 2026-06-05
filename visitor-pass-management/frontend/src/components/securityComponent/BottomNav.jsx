@@ -1,35 +1,8 @@
-import {
-  LayoutDashboard,
-  QrCode,
-  ShieldCheck,
-  ClipboardList,
-} from "lucide-react";
-
 import { NavLink } from "react-router-dom";
+import { mobileNavConfig } from "@/config/mobileNavConfig";
 
-function BottomNav() {
-  const menus = [
-    {
-      name: "Home",
-      icon: LayoutDashboard,
-      path: "/security",
-    },
-    {
-      name: "Scan",
-      icon: QrCode,
-      path: "/security/scan",
-    },
-    {
-      name: "Verify",
-      icon: ShieldCheck,
-      path: "/security/verify",
-    },
-    {
-      name: "Logs",
-      icon: ClipboardList,
-      path: "/security/logs",
-    },
-  ];
+function BottomNav({ role }) {
+  const menus = mobileNavConfig[role] || [];
 
   return (
     <div
@@ -43,10 +16,14 @@ function BottomNav() {
       bg-[#0f172a]
       border-t
       border-white/10
-      backdrop-blur-xl
       "
     >
-      <div className="grid grid-cols-4">
+      <div
+        className={`grid`}
+        style={{
+          gridTemplateColumns: `repeat(${menus.length},1fr)`,
+        }}
+      >
         {menus.map((item) => {
           const Icon = item.icon;
 
@@ -59,16 +36,15 @@ function BottomNav() {
                 flex
                 flex-col
                 items-center
-                justify-center
                 py-3
-                gap-1
+                text-xs
                 ${isActive ? "text-violet-400" : "text-slate-400"}
                 `
               }
             >
               <Icon size={20} />
 
-              <span className="text-xs">{item.name}</span>
+              <span className="mt-1">{item.name}</span>
             </NavLink>
           );
         })}

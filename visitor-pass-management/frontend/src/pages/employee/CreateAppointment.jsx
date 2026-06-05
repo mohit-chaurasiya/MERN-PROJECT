@@ -14,7 +14,7 @@ function CreateAppointment() {
 
   const today = new Date();
 
-  today.setDate(today.getDate()+1);
+  today.setDate(today.getDate() + 1);
 
   const minDate = today.toISOString().split("T")[0];
 
@@ -23,6 +23,7 @@ function CreateAppointment() {
     purpose: "",
     date: "",
   });
+  const selectedVisitor = visitors.find((v) => v._id === form.visitorId);
 
   useEffect(() => {
     const fetchVisitors = async () => {
@@ -76,6 +77,24 @@ function CreateAppointment() {
 
   return (
     <EmployeeLayout>
+      <div
+        className="
+  mb-6
+  rounded-3xl
+  border border-white/10
+  bg-linear-to-r
+  from-violet-600/20
+  via-blue-600/20
+  to-cyan-600/20
+  p-6
+  "
+      >
+        <h1 className="text-3xl font-bold text-white">Create Appointment</h1>
+
+        <p className="text-slate-300 mt-2">
+          Schedule meetings for registered visitors.
+        </p>
+      </div>
       <motion.div
         className="max-w-xl mx-auto px-4"
         initial={{ opacity: 0, y: 20 }}
@@ -83,76 +102,154 @@ function CreateAppointment() {
         transiton={{ durataion: 0.5 }}
       >
         {/* Card */}
-        <div className="bg-[#1e293b] border border-gray-800 p-6 rounded-2xl shadow-lg">
-          <h2 className="text-xl font-bold text-white mb-6">
-            Create Appointment
-          </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="grid lg:grid-cols-7 gap-6">
+            {/* LEFT */}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Visitor Select */}
-            <select
-              name="visitorId"
-              value={form.visitorId}
-              onChange={handleChange}
-              required
-              className="
-              w-full bg-[#0f172a] border border-gray-700 text-white 
-              p-3 rounded-lg outline-none focus:border-blue-500
-              "
-            >
-              <option value="">Select Visitor</option>
-              {visitors.map((v) => (
-                <option key={v._id} value={v._id}>
-                  {v.name}
-                </option>
-              ))}
-            </select>
+            <div className="lg:col-span-3 h-full">
+              <div
+                className="
+        bg-[#0f172a]
+        border border-white/10
+        rounded-3xl
+        p-6
+        "
+              >
+                <h2 className="text-xl font-semibold text-white mb-5">
+                  Appointment Details
+                </h2>
 
-            {/* Purpose */}
-            <input
-              type="text"
-              name="purpose"
-              placeholder="Purpose of Visit"
-              value={form.purpose}
-              onChange={handleChange}
-              required
-              className="
-              w-full bg-[#0f172a] border border-gray-700 text-white 
-              p-3 rounded-lg outline-none focus:border-blue-500
-              "
-            />
+                <div className="space-y-4">
+                  <select
+                    name="visitorId"
+                    value={form.visitorId}
+                    onChange={handleChange}
+                    required
+                    className="
+            w-full
+            bg-slate-900
+            border border-white/10
+            text-white
+            p-3
+            rounded-xl
+            "
+                  >
+                    <option value="">Select Visitor</option>
 
-            {/* Date */}
-            <input
-              type="date"
-              name="date"
-              min={minDate}
-              value={form.date}
-              onChange={handleChange}
-              required
-              className="
-              w-full bg-[#0f172a] border border-gray-700 text-gray-300 
-              p-3 rounded-lg outline-none focus:border-blue-500
-              "
-            />
+                    {visitors.map((v) => (
+                      <option key={v._id} value={v._id}>
+                        {v.name}
+                      </option>
+                    ))}
+                  </select>
 
-            {/* Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              disabled={loading}
-              className="
-              w-full py-3 rounded-lg font-semibold 
-              bg-blue-600 hover:bg-blue-700 
-              transition duration-200
-              disabled:opacity-50
-              "
-            >
-              {loading ? "Creating..." : "Create Appointment"}
-            </motion.button>
-          </form>
-        </div>
+                  <input
+                    type="text"
+                    name="purpose"
+                    placeholder="Purpose of Visit"
+                    value={form.purpose}
+                    onChange={handleChange}
+                    required
+                    className="
+            w-full
+            bg-slate-900
+            border border-white/10
+            text-white
+            p-3
+            rounded-xl
+            "
+                  />
+
+                  <input
+                    type="date"
+                    name="date"
+                    min={minDate}
+                    value={form.date}
+                    onChange={handleChange}
+                    required
+                    className="
+            w-full
+            bg-slate-900
+            border border-white/10
+            text-white
+            p-3
+            rounded-xl
+            "
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT */}
+
+            <div className="lg:col-span-4 space-y-6">
+              {/* Visitor Preview */}
+
+              <div
+                className="
+  bg-[#0f172a]
+  border border-white/10
+  rounded-3xl
+  p-6
+  h-full
+  "
+              >
+                <h2 className="text-white font-semibold mb-5">
+                  Visitor Preview
+                </h2>
+
+                {selectedVisitor ? (
+                  <div className="space-y-5">
+                    <div>
+                      <p className="text-slate-400 text-xs uppercase">Name</p>
+
+                      <p className="text-white font-medium mt-1">
+                        {selectedVisitor.name}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-slate-400 text-xs uppercase">Email</p>
+
+                      <p className="text-white break-all mt-1">
+                        {selectedVisitor.email}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-slate-400 text-xs uppercase">Phone</p>
+
+                      <p className="text-white mt-1">{selectedVisitor.phone}</p>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="
+        w-full
+        mt-6
+        bg-gradient-to-r
+        from-violet-600
+        to-blue-600
+        hover:opacity-90
+        text-white
+        py-3
+        rounded-2xl
+        font-semibold
+        transition
+        "
+                    >
+                      {loading ? "Creating..." : "Create Appointment"}
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-slate-400">Select a visitor first</p>
+                )}
+              </div>
+              {/* Submit */}
+            </div>
+          </div>
+        </form>
       </motion.div>
     </EmployeeLayout>
   );

@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import React from "react";
 import Topbar from "../components/Topbar";
 import { adminMenu } from "../config/menuConfig";
+import BottomNav from "../components/securityComponent/BottomNav";
 
 const AdminLayout = ({ children }) => {
   return (
@@ -15,6 +16,7 @@ const AdminLayout = ({ children }) => {
         </div>
         <div className="p-6">{children}</div>
       </div>
+      <BottomNav role="admin" />
     </div>
   );
 };

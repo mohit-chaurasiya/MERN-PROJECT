@@ -20,6 +20,10 @@ import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
 import VerifyPass from "./pages/security/VerifyPass";
+import Profile from "./pages/Profile";
+import AdminLayout from "./layouts/AdminLayout";
+import EmployeeLayout from "./layouts/EmployeeLayout";
+import SecurityLayout from "./layouts/SecurityLayout";
 
 function App() {
   return (
@@ -45,6 +49,16 @@ function App() {
           element={
             <RoleProtectedRoute allowedRole="admin">
               <Visitors />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/profile"
+          element={
+            <RoleProtectedRoute allowedRole="admin">
+              <AdminLayout>
+                <Profile />
+              </AdminLayout>
             </RoleProtectedRoute>
           }
         />
@@ -93,6 +107,16 @@ function App() {
             </RoleProtectedRoute>
           }
         />
+        <Route
+          path="/employee/profile"
+          element={
+            <RoleProtectedRoute allowedRole="employee">
+              <EmployeeLayout>
+                <Profile />
+              </EmployeeLayout>
+            </RoleProtectedRoute>
+          }
+        />
 
         <Route
           path="/security"
@@ -126,6 +150,17 @@ function App() {
           element={
             <RoleProtectedRoute allowedRole="security">
               <VisitorLogs />
+            </RoleProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/security/profile"
+          element={
+            <RoleProtectedRoute allowedRole="security">
+              <SecurityLayout>
+                <Profile />
+              </SecurityLayout>
             </RoleProtectedRoute>
           }
         />

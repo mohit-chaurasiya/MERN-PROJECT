@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 
 function CreateVisitor() {
   const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState(null);
   const { user } = useAuth();
 
   const [form, setForm] = useState({
@@ -22,10 +23,17 @@ function CreateVisitor() {
     const { name, value, files } = e.target;
 
     if (name === "photo") {
+      const file = files[0];
+
       setForm((prev) => ({
         ...prev,
-        photo: files[0],
+        photo: file,
       }));
+
+      if (file) {
+        setPreview(URL.createObjectURL(file));
+      }
+
       return;
     }
 
@@ -94,82 +102,193 @@ function CreateVisitor() {
 
   return (
     <EmployeeLayout>
-      <motion.div
-        className="max-w-xl mx-auto px-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transiton={{ durataion: 0.5 }}
-      >
-        {/* Card */}
-        <div className="bg-[#1e293b] border border-gray-800 p-6 rounded-2xl shadow-lg">
-          <h2 className="text-xl font-bold text-white mb-6">Create Visitor</h2>
+      <div className="max-w-5xl mx-auto space-y-6">
+        {/* HERO */}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name */}
-            <input
-              type="text"
-              name="name"
-              placeholder="Visitor Name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full bg-[#0f172a] border border-gray-700 text-white p-3 rounded-lg focus:border-blue-500 outline-none"
-            />
+        <div
+          className="
+      rounded-3xl
+      border border-white/10
+      bg-linear-to-r
+      from-violet-600/20
+      via-blue-600/20
+      to-cyan-600/20
+      p-6
+      "
+        >
+          <h1 className="text-3xl font-bold text-white">Create Visitor</h1>
 
-            {/* Photo */}
-            <input
-              type="file"
-              name="photo"
-              accept="image/*"
-              onChange={handleChange}
-              className="w-full bg-[#0f172a] border border-gray-700 text-gray-400 p-2 rounded-lg file:bg-blue-600 file:text-white file:border-0 file:px-3 file:py-1 file:rounded"
-            />
-
-            {/* Email */}
-            <input
-              type="text"
-              name="email"
-              placeholder="Visitor Email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full bg-[#0f172a] border border-gray-700 text-white p-3 rounded-lg focus:border-blue-500 outline-none"
-            />
-
-            {/* Phone */}
-            <input
-              type="text"
-              name="phone"
-              placeholder="Visitor Mobile Number"
-              value={form.phone}
-              onChange={handleChange}
-              className="w-full bg-[#0f172a] border border-gray-700 text-white p-3 rounded-lg focus:border-blue-500 outline-none"
-            />
-
-            {/* Host */}
-            <input
-              type="text"
-              value={user?.name || ""}
-              readOnly
-              className="w-full bg-gray-800 text-gray-400 p-3 rounded-lg cursor-not-allowed"
-            />
-
-            {/* Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              disabled={loading}
-              className="
-              w-full py-3 rounded-lg font-semibold 
-              bg-blue-600 hover:bg-blue-700 
-              transition duration-200
-              disabled:opacity-50
-              "
-            >
-              {loading ? "Creating..." : "Create Visitor"}
-            </motion.button>
-          </form>
+          <p className="text-slate-300 mt-2">
+            Register a new visitor and schedule meetings easily.
+          </p>
         </div>
-      </motion.div>
+
+        {/* FORM */}
+
+        <form onSubmit={handleSubmit}>
+          <div className="grid lg:grid-cols-3 gap-6">
+            {/* LEFT */}
+
+            <div className="lg:col-span-2">
+              <div
+                className="
+            bg-[#0f172a]
+            border border-white/10
+            rounded-3xl
+            p-6
+            "
+              >
+                <h2 className="text-xl font-semibold text-white mb-5">
+                  Visitor Information
+                </h2>
+
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Visitor Name"
+                    value={form.name}
+                    onChange={handleChange}
+                    className="
+                w-full
+                bg-slate-900
+                border border-white/10
+                text-white
+                p-3
+                rounded-xl
+                "
+                  />
+
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Visitor Email"
+                    value={form.email}
+                    onChange={handleChange}
+                    className="
+                w-full
+                bg-slate-900
+                border border-white/10
+                text-white
+                p-3
+                rounded-xl
+                "
+                  />
+
+                  <input
+                    type="text"
+                    name="phone"
+                    placeholder="Mobile Number"
+                    value={form.phone}
+                    onChange={handleChange}
+                    className="
+                w-full
+                bg-slate-900
+                border border-white/10
+                text-white
+                p-3
+                rounded-xl
+                "
+                  />
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="
+  w-full
+  bg-gradient-to-r
+  from-violet-600
+  to-blue-600
+  hover:opacity-90
+  text-white
+  py-3
+  rounded-2xl
+  font-semibold
+  transition
+  mt-4
+  "
+              >
+                {loading ? "Creating Visitor..." : "Create Visitor"}
+              </button>
+            </div>
+
+            {/* RIGHT */}
+
+            <div className="space-y-6">
+              {/* PHOTO */}
+
+              <div
+                className="
+            bg-[#0f172a]
+            border border-white/10
+            rounded-3xl
+            p-6
+            "
+              >
+                <h2 className="text-white font-semibold mb-4">Visitor Photo</h2>
+
+                <div
+                  className="
+              h-35 lg:h-38
+              rounded-2xl
+              border border-dashed border-white/10
+              overflow-hidden
+              flex items-center justify-center
+              "
+                >
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt="preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-slate-400">No Photo Selected</span>
+                  )}
+                </div>
+
+                <input
+                  type="file"
+                  name="photo"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="
+              mt-4
+              w-full
+              text-slate-400
+              "
+                />
+              </div>
+
+              {/* HOST */}
+
+              <div
+                className="
+  bg-slate-900
+  border border-white/10
+  rounded-2xl
+  p-4
+  "
+              >
+                <p className="text-slate-400 text-xs uppercase">Host Name</p>
+
+                <p className="text-white font-semibold mt-1">{user?.name}</p>
+
+                <div className="mt-4 border-t border-white/10 pt-4">
+                  <p className="text-slate-400 text-xs uppercase">Email</p>
+
+                  <p className="text-white text-sm mt-1">
+                    {user?.email || "Not Available"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* BUTTON */}
+        </form>
+      </div>
     </EmployeeLayout>
   );
 }

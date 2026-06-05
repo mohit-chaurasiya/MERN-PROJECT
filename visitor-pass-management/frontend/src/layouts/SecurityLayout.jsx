@@ -18,7 +18,7 @@ function SecurityLayout({ children }) {
         {children}
       </main>
 
-      <BottomNav />
+      <BottomNav role="security" />
     </div>
   );
 }

@@ -9,7 +9,7 @@ export const employeeDashboardConfig = [
     bg: "bg-green-500/10 text-green-400"
   },
   {
-    title: "Total Appointments",
+    title: "Appointments",
     key: "total",
     icon: Calendar,
     color: "bg-blue-500/10 text-blue-400",
