@@ -29,6 +29,12 @@ exports.checkInVisitor = async (req, res) => {
             })
         }
 
+        if (pass.status === "expired") {
+            return res.status(400).json({
+                error: "Pass already used and expired"
+            });
+        }
+
 
         const today = new Date().toDateString()
         const appointmentDate = new Date(pass.appointmentId.date).toDateString()
@@ -48,6 +54,17 @@ exports.checkInVisitor = async (req, res) => {
             return res.status(400).json({
                 message: 'Visitor already checked in'
             })
+        }
+
+        const usedPass = await CheckLog.findOne({
+            passId: pass._id,
+            checkOutTime: { $ne: null }
+        });
+
+        if (usedPass) {
+            return res.status(400).json({
+                error: "Pass already used"
+            });
         }
 
         const log = await CheckLog.create({
@@ -114,6 +131,10 @@ exports.checkOutVisitor = async (req, res) => {
         log.checkOutTime = new Date()
 
         await log.save()
+
+        pass.status = "expired";
+
+        await pass.save();
 
         res.status(200).json({
             message: "Visitor checked out",

@@ -12,11 +12,12 @@ function CreateAppointment() {
   const [visitors, setVisitors] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const today = new Date();
+  // const today = new Date();
+  const minDate = new Date().toISOString().split("T")[0];
 
-  today.setDate(today.getDate() + 1);
+  // today.setDate(today.getDate() + 1);
 
-  const minDate = today.toISOString().split("T")[0];
+  // const minDate = today.toISOString().split("T")[0];
 
   const [form, setForm] = useState({
     visitorId: "",

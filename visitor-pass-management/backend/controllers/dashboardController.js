@@ -101,10 +101,18 @@ exports.getWeeklyStats = async (req, res) => {
     const userId = req.user._id;
     const role = req.user.role;
 
+
+    // Last 7 days
+    const lastWeek = new Date();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+
     let pipeline = [
       {
         $match: {
-          checkInTime: { $ne: null }
+          checkInTime: {
+            $ne: null,
+            $gte: lastWeek
+          }
         }
       },
       {
@@ -120,40 +128,68 @@ exports.getWeeklyStats = async (req, res) => {
       }
     ];
 
-    // 🔥 MAIN LOGIC
+    // Employee sirf apne visitors dekhe
     if (role === "employee") {
       pipeline.push({
         $match: {
-          "passData.hostId": userId   // 👈 IMPORTANT
+          "passData.hostId": userId
         }
       });
     }
 
     pipeline.push({
       $group: {
-        _id: { $dayOfWeek: "$checkInTime" },
-        count: { $sum: 1 }
+        _id: {
+          $dateToString: {
+            format: "%Y-%m-%d",
+            date: "$checkInTime"
+          }
+        },
+        count: {
+          $sum: 1
+        }
       }
     });
 
     const stats = await CheckLog.aggregate(pipeline);
 
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    // Last 7 days labels
+    const formatted = [];
 
-    const formatted = days.map((day, index) => {
-      const found = stats.find(s => s._id === index + 1);
-      return {
-        name: day,
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+
+      const key = date.toISOString().split("T")[0];
+
+      const found = stats.find(
+        (s) => s._id === key
+      );
+
+      formatted.push({
+        name: date.toLocaleDateString("en-US", {
+          weekday: "short"
+        }),
         count: found ? found.count : 0
-      };
-    });
+      });
+    }
 
-    res.json(formatted);
+    res.status(200).json(formatted);
+
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.log(err);
+
+
+    res.status(500).json({
+      error: err.message
+    });
+
+
   }
 };
+
+
 
 
 exports.getSecurityStats = async (req, res) => {
