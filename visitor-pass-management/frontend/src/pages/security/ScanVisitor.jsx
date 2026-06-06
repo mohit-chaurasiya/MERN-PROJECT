@@ -234,7 +234,7 @@ const ScanVisitor = () => {
     shadow-lg
     shadow-green-500/20
     mx-auto"
-                    src={`${import.meta.env.VITE_SERVER_URL}/${visitor?.photo}`}
+                    src={`${import.meta.env.VITE_SERVER_URL}/${visitor?.visitorPhoto}`}
                     alt={visitor?.name}
                   />
                 </div>

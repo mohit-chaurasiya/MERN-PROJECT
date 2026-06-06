@@ -25,6 +25,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import EmployeeLayout from "./layouts/EmployeeLayout";
 import SecurityLayout from "./layouts/SecurityLayout";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminAppointments from "./pages/admin/AdminAppointment";
+import AdminPasses from "./pages/admin/AdminPasses";
 
 function App() {
   return (
@@ -52,12 +54,28 @@ function App() {
             </RoleProtectedRoute>
           }
         />
+        <Route
+          path="/admin/appointments"
+          element={
+            <RoleProtectedRoute allowedRole="admin">
+              <AdminAppointments />
+            </RoleProtectedRoute>
+          }
+        />
 
         <Route
           path="/admin/visitors"
           element={
             <RoleProtectedRoute allowedRole="admin">
               <Visitors />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/passes"
+          element={
+            <RoleProtectedRoute allowedRole="admin">
+              <AdminPasses />
             </RoleProtectedRoute>
           }
         />

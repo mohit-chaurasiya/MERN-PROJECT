@@ -60,3 +60,40 @@ exports.generatePass = async (req, res) => {
         })
     }
 }
+
+exports.getAllPasses = async (req, res) => {
+    try {
+        const passes = await Pass.find()
+            .populate("visitorId")
+            .populate("hostId")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json(passes);
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+exports.deletePass = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const pass = await Pass.findByIdAndDelete(id);
+
+        if (!pass) {
+            return res.status(404).json({
+                error: "Pass not found",
+            });
+        }
+
+        res.status(200).json({
+            message: "Pass deleted",
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};

@@ -209,7 +209,7 @@ function CreateAppointment() {
       object-cover
       border-2
       border-violet-500/30"
-                        src={`${import.meta.env.VITE_SERVER_URL}/${selectedVisitor.photo}`}
+                        src={`${import.meta.env.VITE_SERVER_URL}/${selectedVisitor?.photo}`}
                         alt={selectedVisitor.name}
                       />
                     </div>

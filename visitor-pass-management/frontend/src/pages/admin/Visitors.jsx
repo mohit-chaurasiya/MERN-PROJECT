@@ -120,7 +120,7 @@ function Visitors() {
                 <th className="p-4 text-slate-400 font-medium">Sr. No</th>
                 <th className="p-4 text-slate-400 font-medium">Name</th>
                 <th className="p-4 text-slate-400 font-medium">Email</th>
-                <th className="p-4 text-slate-400 font-medium">Purpose</th>
+                {/* <th className="p-4 text-slate-400 font-medium">Purpose</th> */}
                 <th className="p-4 text-slate-400 font-medium">Host</th>
                 <th className="p-4 text-slate-400 font-medium">Created</th>
                 <th className="p-4 text-slate-400 font-medium">Action</th>
@@ -154,7 +154,7 @@ function Visitors() {
                       <td className="p-3">{index + 1}</td>
                       <td className="p-3 font-medium">{visitor.name}</td>
                       <td className="p-3">{visitor.email}</td>
-                      <td className="p-3">{visitor.purpose}</td>
+                      {/* <td className="p-3">{visitor?.purpose}</td> */}
                       <td className="p-3">{visitor.host}</td>
 
                       <td>
