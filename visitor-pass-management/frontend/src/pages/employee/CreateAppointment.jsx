@@ -104,7 +104,7 @@ function CreateAppointment() {
       >
         {/* Card */}
         <form onSubmit={handleSubmit}>
-          <div className="grid lg:grid-cols-7 gap-6">
+          <div className="grid lg:grid-cols-6 gap-6">
             {/* LEFT */}
 
             <div className="lg:col-span-3 h-full">
@@ -183,7 +183,7 @@ function CreateAppointment() {
 
             {/* RIGHT */}
 
-            <div className="lg:col-span-4 space-y-6">
+            <div className="lg:col-span-3 space-y-6">
               {/* Visitor Preview */}
 
               <div
@@ -201,6 +201,18 @@ function CreateAppointment() {
 
                 {selectedVisitor ? (
                   <div className="space-y-5">
+                    <div>
+                      <img
+                        className=" w-20
+      h-20
+      rounded-2xl
+      object-cover
+      border-2
+      border-violet-500/30"
+                        src={`${import.meta.env.VITE_SERVER_URL}/${selectedVisitor.photo}`}
+                        alt={selectedVisitor.name}
+                      />
+                    </div>
                     <div>
                       <p className="text-slate-400 text-xs uppercase">Name</p>
 

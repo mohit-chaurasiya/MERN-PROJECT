@@ -9,10 +9,10 @@ const visitorSchema = new Schema({
         type: String,
         required: true
     },
-    email: {    
+    email: {
         type: String,
         required: true,
-    
+
     },
     phone: {
         type: String,
@@ -29,52 +29,53 @@ const visitorSchema = new Schema({
     },
     photo: {
         type: String,
-        
+
     }
-},{timestamps: true});
+}, { timestamps: true });
 
 
-visitorSchema.statics.register = async function(name, email, phone, host, hostId,photo) {
-    if(!name){
+visitorSchema.statics.register = async function (name, email, phone, host, hostId, photo) {
+    if (!name) {
         throw Error('Please enter name')
     }
-    if(!email){
+    if (!email) {
         throw Error("please enter email")
     }
 
-    if(!host){
+    if (!host) {
         throw Error("please enter host")
     }
-    if(!phone){
+    if (!phone) {
         throw Error("please enter phone")
     }
-    if(!hostId){
+    if (!hostId) {
         throw Error("please enter hostId")
     }
-    if(!photo){
+    if (!photo) {
         throw Error("please add Photo")
     }
 
-    if(!validator.isEmail(email)){
+    if (!validator.isEmail(email)) {
         throw Error('Email is not valid');
     }
 
-   
-    const exists = await this.findOne({email});
 
-    if(exists){
+    const exists = await this.findOne({ email, hostId });
+
+    if (exists) {
         throw Error('Email already exists');
     }
 
-   
+
 
     const visitor = await this.create({
-    name,
-    email,
-    phone,
-    host,
-    hostId
-  });
+        name,
+        email,
+        phone,
+        host,
+        hostId,
+        photo
+    });
 
     return visitor;
 }
