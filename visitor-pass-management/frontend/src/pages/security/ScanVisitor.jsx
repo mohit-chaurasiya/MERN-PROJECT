@@ -222,6 +222,24 @@ const ScanVisitor = () => {
 
               <div className="space-y-4">
                 <div>
+                  <img
+                    className="w-32
+    h-32
+    md:w-40
+    md:h-40
+    rounded-3xl
+    object-cover
+    border-4
+    border-green-500/30
+    shadow-lg
+    shadow-green-500/20
+    mx-auto"
+                    src={`${import.meta.env.VITE_SERVER_URL}/${visitor?.photo}`}
+                    alt={visitor?.name}
+                  />
+                </div>
+
+                <div>
                   <p className="text-slate-400 text-sm">Visitor Name</p>
 
                   <p className="text-white font-medium">
