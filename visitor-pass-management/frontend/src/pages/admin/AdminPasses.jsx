@@ -28,6 +28,7 @@ function AdminPasses() {
   const fetchPasses = async () => {
     try {
       const res = await API.get("/passes");
+      console.log(res.data);
       setPasses(res.data);
     } catch (err) {
       notify.error("Failed to fetch passes");
@@ -105,7 +106,7 @@ function AdminPasses() {
           className="
           rounded-3xl
           border border-white/10
-          bg-gradient-to-r
+          bg-linear-to-r
           from-violet-600/20
           via-blue-600/20
           to-cyan-600/20
@@ -160,7 +161,7 @@ function AdminPasses() {
             border border-white/10
             text-white
             rounded-2xl
-            p-3
+            p-3 
             outline-none
             "
           />
@@ -238,29 +239,38 @@ function AdminPasses() {
                       border-t border-gray-800
                       hover:bg-[#0f172a]
                       transition
+                      
                       "
                     >
-                      <TableCell>{pass.passNumber}</TableCell>
+                      <TableCell className="text-center">
+                        {pass.passNumber}
+                      </TableCell>
 
-                      <TableCell>{pass.visitorId?.name}</TableCell>
+                      <TableCell className="text-center">
+                        {pass.visitorId?.name}
+                      </TableCell>
 
-                      <TableCell>{pass.hostId?.name}</TableCell>
+                      <TableCell className="text-center">
+                        {pass.visitorId?.host}
+                      </TableCell>
 
-                      <TableCell>
+                      <TableCell className="text-center">
                         <img
                           src={pass.qrCode}
                           alt="QR"
-                          className="w-14 h-14 rounded-lg"
+                          className="w-14 h-14 rounded-lg text-center"
                         />
                       </TableCell>
 
-                      <TableCell>{getStatusBadge(pass.status)}</TableCell>
+                      <TableCell className="text-center">
+                        {getStatusBadge(pass.status)}
+                      </TableCell>
 
-                      <TableCell>
+                      <TableCell className="text-center">
                         {new Date(pass.validTill).toLocaleDateString()}
                       </TableCell>
 
-                      <TableCell>
+                      <TableCell className="text-center">
                         <Button
                           size="sm"
                           className="
@@ -321,7 +331,7 @@ function AdminPasses() {
                   Visitor: {pass.visitorId?.name}
                 </p>
 
-                <p className="text-slate-400">Host: {pass.hostId?.name}</p>
+                <p className="text-slate-400">Host: {pass.visitorId?.host}</p>
 
                 <p className="text-slate-500 text-sm mt-2">
                   Valid Till: {new Date(pass.validTill).toLocaleDateString()}

@@ -4,45 +4,46 @@ const Schema = mongoose.Schema;
 
 const passSchema = new Schema({
 
-    visitorId : {
+    visitorId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref : 'Visitor',
-        required : true
+        ref: 'Visitor',
+        required: true
     },
-    appointmentId : {
+    appointmentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref : 'Appointment',
-        required : true 
+        ref: 'Appointment',
+        required: true
     },
-    passNumber :{
+    passNumber: {
         type: String,
-        required : true,
-        unique : true
+        required: true,
+        unique: true
     },
-    qrCode : {
+    qrCode: {
         type: String,
-        required : true
+        required: true
     },
-    validFrom : {
+    validFrom: {
         type: Date,
-        required : true
+        required: true
 
     },
-    validTill : {
+    validTill: {
         type: Date,
-        required : true
+        required: true
     },
 
-    status:{
+    status: {
         type: String,
-        default : 'active'
+        default: 'active',
+        enum: ['active', 'expired']
     },
     hostId: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "User"
-}
-},{
-    timestamps : true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
+}, {
+    timestamps: true
 })
 
 module.exports = mongoose.model('Pass', passSchema);

@@ -12,7 +12,10 @@ exports.getDashboardStats = async (req, res) => {
     const totalEmployee = await User.countDocuments({ role: "employee" })
     const totalSecurity = await User.countDocuments({ role: "security" })
     const totalVisitors = await Visitor.countDocuments()
-    const activePasses = await Pass.countDocuments({ stats: "active" })
+    const activePasses = await Pass.countDocuments({ status: "active" })
+    console.log(activePasses)
+    const expiredPasses = await Pass.countDocuments({ status: "expired" })
+    const totalAppointements = await Appointment.countDocuments()
     const approveAppointments = await Appointment.countDocuments({
       status: "approved"
     })
@@ -39,7 +42,9 @@ exports.getDashboardStats = async (req, res) => {
       totalEmployee,
       totalSecurity,
       totalVisitors,
+      totalAppointements,
       activePasses,
+      expiredPasses,
       approveAppointments,
       pendingAppointments,
       rejectAppointments,

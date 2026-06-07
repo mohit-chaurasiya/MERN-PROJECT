@@ -15,6 +15,7 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const res = await API.get("/dashboard/stats");
+        console.log(res);
         setCount(res.data);
       } catch (err) {
         console.log(err);
@@ -69,7 +70,7 @@ const AdminDashboard = () => {
           </span>
 
           <span className="px-4 py-2 rounded-full bg-white/10 text-white text-sm">
-            🎫 {count.activePasses || 0} Active Passes
+            🎫 {count.activePasses || 2} Active Passes
           </span>
         </div>
 
@@ -92,7 +93,7 @@ const AdminDashboard = () => {
               color: "from-cyan-500/20 to-blue-500/20",
             },
             {
-              title: "Appointments",
+              title: "Pending Appointments",
               value: count.pendingAppointments || 0,
               icon: "📅",
               route: "/admin/appointments",
@@ -120,7 +121,7 @@ const AdminDashboard = () => {
       cursor-pointer
       rounded-3xl
       p-5
-      bg-gradient-to-br
+      bg-linear-to-br
       ${card.color}
       border border-white/10
       backdrop-blur-xl
